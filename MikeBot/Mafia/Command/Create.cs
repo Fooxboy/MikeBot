@@ -54,6 +54,7 @@ namespace MikeBot.Mafia.Command
             var model_game = new Models.Mafia.GameFile();     
             model_game.creator_game = id;
             model_game.count_players = 0;
+            model_game.night = 0; 
             string json_game = JsonConvert.SerializeObject(model_game);
             Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.txt");
 

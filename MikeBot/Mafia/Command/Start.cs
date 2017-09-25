@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace MikeBot.Mafia.Command
 {
@@ -47,6 +48,7 @@ namespace MikeBot.Mafia.Command
             model_game.count_players = count_players;
             model_game.creator_game = obj.creator_game;
             model_game.id_players = obj.id_players;
+            model_game.night = obj.night;
             model_game.isStart = "1";
 
             
@@ -54,7 +56,16 @@ namespace MikeBot.Mafia.Command
             string json_new = JsonConvert.SerializeObject(model_game);
             Methods.WriteFile.Start(json_new, $@"MafiaGames\{dialog_id}\{game}.txt");
 
-            Bot.API.Message.Send("Роли разданы. Для того, чтобы начать первую ночь, напишите Майк, мафия ночь.", dialog_id);
+            //Создаём файл, где сказано о всех выборах игроков(0 ночь).
+            File.Create($@"MafiaGames\{dialog_id}\{game}_choise_night{obj.night}.txt");
+            var model_choise = new Models.Mafia.ChoiseFile();
+            model_choise.users_id = null;
+            model_choise.choise_id = null;
+            string json_choise = JsonConvert.SerializeObject(model_choise);
+            Methods.WriteFile.Start(json_choise, $@"MafiaGames\{dialog_id}\{game}_choise_night{obj.night}.txt");
+
+
+            Bot.API.Message.Send("Роли разданы. Для того, чтобы начать первую ночь, напишите: Майк, мафия ночь.", dialog_id);
 
         }
     }

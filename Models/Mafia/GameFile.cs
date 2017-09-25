@@ -11,7 +11,7 @@ namespace Models.Mafia
         public List<string> live_players { get; set; }
         public int count_players { get; set; }
         public string creator_game { get; set; }
-        public string night { get; set; }
+        public int night { get; set; }
         public string time { get; set; }
         public string isStart { get; set; }
         public int players_action { get; set; }

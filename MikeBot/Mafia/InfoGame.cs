@@ -22,7 +22,7 @@ namespace MikeBot.Mafia
         public List<string> live_players { get { return model.live_players; } }
         public int count_players { get { return model.count_players; } }
         public string creator_game { get { return model.creator_game; } }
-        public string night { get { return model.night; }  }
+        public int night { get { return model.night; }  }
         public string time { get { return model.time; } }
         public string isStart { get { return model.isStart; } }
         public int players_action { get { return model.players_action; } }

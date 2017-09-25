@@ -85,7 +85,7 @@ namespace MikeBot.Mafia.Command
             model.id_players = info.id_players;
             model.isStart = info.isStart;
             model.live_players = info.live_players;
-            model.night = "1";
+            model.night = 1;
             model.players_action = count_players_action;
             model.time = info.time;
 
