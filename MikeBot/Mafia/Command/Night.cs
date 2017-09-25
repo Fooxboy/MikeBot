@@ -74,7 +74,7 @@ namespace MikeBot.Mafia.Command
                 count_players_action = i;
             }
 
-            Bot.API.Message.Send("Ночь началась. Кто же будет убить этой ночью?", dialog_id);
+            Bot.API.Message.Send("Ночь началась. Кто же будет убит этой ночью?", dialog_id);
 
             var model = new Models.Mafia.GameFile();
 
