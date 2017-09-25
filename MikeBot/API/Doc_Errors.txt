@@ -1,0 +1,9 @@
+﻿
+==============================================
+Ошибки Response<T> error_code:
+	1 - Ошибка в GetLongPollServer.
+	2 - Ошибка в LongPoll.Deserialize.
+	3 - Ошибка в LongPoll.Starter при вызове метода GetLongPollServer.
+	4 - Ошибка в Message.Send при отправе сообщения.
+	5 - Ошибка в Method.Users.Get.
+==============================================
