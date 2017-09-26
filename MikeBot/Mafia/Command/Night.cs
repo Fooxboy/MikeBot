@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace MikeBot.Mafia.Command
 {
@@ -74,7 +75,7 @@ namespace MikeBot.Mafia.Command
                 count_players_action = i;
             }
 
-            Bot.API.Message.Send("Ночь началась. Кто же будет убит этой ночью?", dialog_id);
+            Bot.API.Message.Send("Ночь началась. Ночь длится 60с. Кто же будет убит этой ночью?", dialog_id);
 
             var model = new Models.Mafia.GameFile();
 
@@ -85,16 +86,53 @@ namespace MikeBot.Mafia.Command
             model.id_players = info.id_players;
             model.isStart = info.isStart;
             model.live_players = info.live_players;
-            model.night = 1;
+            model.night = info.night + 1;
             model.players_action = count_players_action;
             model.time = info.time;
 
             var info_dialog = new InfoDialog(dialog_id);
             int game = info_dialog.CoutGames + 1;
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+            string json = JsonConvert.SerializeObject(model);
             Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");
 
+            var resp = new ResponseEndNight();
+            resp.dialog_id = dialog_id;
+            resp.info_game = info;
+
+            TimerCallback timerCallback = new TimerCallback(EndNight);
+
+            Timer timer = new Timer(timerCallback, resp, 60000, -1);
             /** ЕБАНЫЙ КОНЕЦ. УРА БЛЯТЬ. УРА! УРА! УРА!*/
         }
+
+        private static void EndNight(object obj)
+        {
+            //Ночь закончилась.
+
+            //Получаем класс.
+            var info = (ResponseEndNight)obj;
+
+            //Получаем класс для работы с информацией игры
+            var info_game = info.info_game;
+
+            //Получаем dialog_id
+            string dialog_id = info.dialog_id;
+
+            //Получаем файл с выбором.
+            var info_choise = new InfoChoise(dialog_id, info_game.night.ToString());
+
+            //Теперь нам нужно про анализировать всех убитых и убийц. Начнём.
+            
+
+
+        }
+
+       
+    }
+
+    public class ResponseEndNight
+    {
+        public InfoGame info_game { get; set; }
+        public string dialog_id { get; set; }
     }
 }
