@@ -23,5 +23,6 @@ namespace MikeBot.Mafia
 
         public List<string> users_id { get { return info.users_id; } }
         public List<string> choise_id { get { return info.choise_id; } }
+        public List<string> killed { get { return info.killed; } }
     }
 }

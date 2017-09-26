@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Linq;
 
 namespace MikeBot.Mafia.Command
 {
@@ -105,6 +106,8 @@ namespace MikeBot.Mafia.Command
             /** ЕБАНЫЙ КОНЕЦ. УРА БЛЯТЬ. УРА! УРА! УРА!*/
         }
 
+
+        //TODO: Переписать в нормальный вид. Вынести в отдельный класс. Вынести в Logic.
         private static void EndNight(object obj)
         {
             //Ночь закончилась.
@@ -121,13 +124,222 @@ namespace MikeBot.Mafia.Command
             //Получаем файл с выбором.
             var info_choise = new InfoChoise(dialog_id, info_game.night.ToString());
 
-            //Теперь нам нужно про анализировать всех убитых и убийц. Начнём.
-            
+            List<string> killed = info_choise.choise_id;
+            List<string> killer = info_choise.users_id;
+            List<string> killeders = info_choise.killed;
+
+            //Убиты бандитом.
+            List<string> killed_from_bandit = null;
+
+            //Убиты киллером.
+            List<string> killed_from_killer = null;
+
+            //С ним переспали ночь.
+            List<string> sleeped_to_night = null;
+
+            //Его обворавали
+            List<string> stealed = null;
+
+            //Его роль узнали
+            List<string> opened_role = null;
+
+            //Вылечены доктором
+            List<string> treated_from_doctor = null;
+
+            //Его спасли
+            List<string> helpered = null;
 
 
-        }
 
-       
+            //Теперь нам нужно проанализировать всех убитых и убийц. Начнём.
+            for(int i=0; info_game.count_players < i; i++)
+            {
+                //Проверяем роль
+                string role = Methods.GetCharactersFromId.Start(killer[i], dialog_id);
+
+                //Записываем ид тех, кого выбрали.
+                switch(role.ToLower())
+                {
+                    case "бандит":
+
+                        killed_from_bandit.Add(killed[i]);
+
+                        break;
+                    case "начинающий бандит":
+
+                        killed_from_bandit.Add(killed[i]);
+
+                        break;
+                    case "заказной киллер":
+                        killed_from_killer.Add(killed[i]);
+
+                        break;
+
+                    case "доктор":
+                        treated_from_doctor.Add(killed[i]);
+
+                        break;
+                    case "блудница":
+                        sleeped_to_night.Add(killed[i]);
+
+                        break;
+                    case "вор":
+                        stealed.Add(killed[i]);
+
+                        break;
+                    case "гадалка":
+                        opened_role.Add(killed[i]);
+
+                        break;
+                    case "спасатель":
+                        helpered.Add(killed[i]);
+                        break;
+                    default:
+                        break;
+
+
+                }
+            }
+
+            List<string> kill_bandit_and_killer = null;
+
+            string kill = "";
+
+            //Анализируем убитых бандитами. Выбераем одного.
+            if(killed_from_bandit != null )
+            {
+                //Ищем совпадение между выбром киллера и бандита.
+
+                string[] killedBandit = killed_from_bandit.ToArray();
+                string[] killedKiller = killed_from_killer.ToArray();
+
+                var results = killedBandit.Intersect(killedKiller);
+
+                foreach(string s in results)
+                {
+                    kill_bandit_and_killer.Add(s);
+                }
+
+                List<string> killed_to_Bandit = null;
+
+                if (kill_bandit_and_killer == null)
+                {
+                    var result = killedBandit.Intersect(killedBandit);
+
+                    foreach(string s in result)
+                    {
+                        killed_to_Bandit.Add(s);
+                    }
+
+                    if(killed_to_Bandit.Count > 1)
+                    {
+                        var rand = new Random();
+                        int rt = rand.Next(1, killed_to_Bandit.Count);
+                        kill = kill_bandit_and_killer[rt];
+                    }
+
+                } else
+                {
+                    int count_killed = kill_bandit_and_killer.Count;
+
+                    if(count_killed > 1)
+                    {
+                        var rand = new Random();
+                        int result = rand.Next(1, count_killed);
+                        kill = kill_bandit_and_killer[result];
+                    }
+                }
+            } else
+            {
+                //Таких нет.
+                //TODO:Доделать.
+            }
+
+            //Начинаем проверять  с кем переспала блудница.
+            if (sleeped_to_night != null)
+            {
+                if (sleeped_to_night.Count > 1)
+                {
+                    for (int i = 0; sleeped_to_night.Count < i; i++)
+                    {
+                        if (kill == sleeped_to_night[i])
+                        {
+                            kill = "";
+                        }
+                    }
+                }
+                else
+                {
+                    if (kill == sleeped_to_night[0])
+                    {
+                        kill = "";
+                    }
+                }
+            } else
+            {
+                //Любовнец нет или они не проголосовали.
+            }
+
+            if(treated_from_doctor != null)
+            {
+                if (treated_from_doctor.Count > 1)
+                {
+                    for (int i = 0; treated_from_doctor.Count < i; i++)
+                    {
+                        if (kill == treated_from_doctor[i])
+                        {
+                            kill = "";
+                        }
+                    }
+                }
+                else
+                {
+                    if (kill == treated_from_doctor[0])
+                    {
+                        kill = "";
+                    }
+                }
+            }
+
+            if (helpered != null)
+            {
+                if (helpered.Count > 1)
+                {
+                    for (int i = 0; helpered.Count < i; i++)
+                    {
+                        if (kill == helpered[i])
+                        {
+                            kill = "";
+                        }
+                    }
+                }
+                else
+                {
+                    if (kill == helpered[0])
+                    {
+                        kill = "";
+                    }
+                }
+            }
+
+            //Мы получили id игроков, которые будут убиты.
+            killeders.Add(kill);
+
+            //Проверяем сколько осталось живых игроков. Если один - Он победил.
+
+            if(info_game.live_players.Count == 1)
+            {
+                //Пишим в беседу имя победителя. И заканчиваем игру.
+            }
+
+            //Сообщаем в беседу имена погибших и их роли.
+            string retrn = $"Этой ночью погибли:/n";
+
+            //Теперь нужно перезаписать файл игры.
+
+
+
+        }     
     }
 
     public class ResponseEndNight

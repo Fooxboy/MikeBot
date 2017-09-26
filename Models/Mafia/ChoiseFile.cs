@@ -8,5 +8,6 @@ namespace Models.Mafia
     {
         public List<string> users_id { get; set; }
         public List<string> choise_id { get; set; }
+        public List<string> killed { get; set; }
     }
 }
