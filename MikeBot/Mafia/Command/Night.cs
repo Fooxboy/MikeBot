@@ -324,15 +324,7 @@ namespace MikeBot.Mafia.Command
 
             //Мы получили id игроков, которые будут убиты.
             killeders.Add(kill);
-
-            //Проверяем сколько осталось живых игроков. Если один - Он победил.
-
-            if(info_game.live_players.Count == 1)
-            {
-                //Пишим в беседу имя победителя. И заканчиваем игру.
-            }
-
-            //Сообщаем в беседу имена погибших и их роли.
+            
             string retrn = $"Этой ночью погибли:/n {Logic.GetKillText.Start(killeders, dialog_id)}";
 
             List<string> live_players = info_game.live_players;
@@ -351,9 +343,17 @@ namespace MikeBot.Mafia.Command
                 }
             }
 
-            string live_players_string = $"Оставшиеся живые игроки:\n {Logic.GetLiveText.Start(live_players)}";
-
-            Bot.API.Message.Send($"{retrn}\n{live_players_string}", dialog_id);
+            if(live_players.Count == 1)
+            {
+                //Выводим имя победителя и заканчиваем игру
+                var obj_user = API.Method.Users.Get.Start(info_game.live_players[0]);
+                string text = $"ПОБЕДИЛ: [{live_players[0]}|{obj_user.obj.response[0].first_name} {obj_user.obj.response[0].last_name}] - был {Methods.GetCharactersFromId.Start(live_players[0],dialog_id)}";
+            } else
+            {
+                string live_players_string = $"Оставшиеся живые игроки:\n {Logic.GetLiveText.Start(live_players)}";
+                Bot.API.Message.Send($"{retrn}\n{live_players_string}", dialog_id);
+            }
+        
             //Теперь нужно перезаписать файл игры.
             var model_game = new Models.Mafia.GameFile();
             model_game.characters = info_game.characters;
