@@ -49,6 +49,7 @@ namespace MikeBot.Mafia.Command
             model_game.creator_game = obj.creator_game;
             model_game.id_players = obj.id_players;
             model_game.night = obj.night;
+            model_game.live_players = obj.live_players;
             model_game.isStart = "1";
 
             

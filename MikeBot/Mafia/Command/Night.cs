@@ -333,8 +333,25 @@ namespace MikeBot.Mafia.Command
             }
 
             //Сообщаем в беседу имена погибших и их роли.
-            string retrn = $"Этой ночью погибли:/n";
+            string retrn = $"Этой ночью погибли:/n {Logic.GetKillText.Start(killeders, dialog_id)}";
 
+            List<string> live_players = info_game.live_players;
+
+
+            //Получаем список живых игроков.
+            for (int i=0; live_players.Count < i; i++)
+            {
+                string id_live = live_players[i];
+                for (int i2=0; killeders.Count < i2; i2++)
+                {
+                    if(id_live == killeders[i2])
+                    {
+                        live_players.RemoveAt(i);
+                    }
+                }
+            }
+
+            string live_players_string = $"Оставшиеся живые игроки: ";
             //Теперь нужно перезаписать файл игры.
 
 
