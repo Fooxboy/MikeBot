@@ -351,9 +351,28 @@ namespace MikeBot.Mafia.Command
                 }
             }
 
-            string live_players_string = $"Оставшиеся живые игроки: ";
-            //Теперь нужно перезаписать файл игры.
+            string live_players_string = $"Оставшиеся живые игроки:\n {Logic.GetLiveText.Start(live_players)}";
 
+            Bot.API.Message.Send($"{retrn}\n{live_players_string}", dialog_id);
+            //Теперь нужно перезаписать файл игры.
+            var model_game = new Models.Mafia.GameFile();
+            model_game.characters = info_game.characters;
+            model_game.count_players = info_game.count_players;
+            model_game.creator_game = info_game.creator_game;
+            model_game.id_players = info_game.id_players;
+            model_game.isStart = info_game.isStart;
+            model_game.live_players = live_players;
+            model_game.night = info_game.night;
+            model_game.players_action = info_game.players_action;
+            model_game.time = info_game.time;
+
+            string json = JsonConvert.SerializeObject(model_game);
+
+            var info_dialog = new InfoDialog(dialog_id);
+
+            int game = info_dialog.CoutGames + 1;
+
+            Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");
 
 
         }     
