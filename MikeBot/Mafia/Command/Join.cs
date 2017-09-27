@@ -49,6 +49,7 @@ namespace MikeBot.Mafia.Command
                             int count_new_players = count_players++;
                             Bot.API.Message.Send($"Вы присоеденились к игре! Количество игроков, которые присоеденились: {count_new_players}. Чтобы начать игру напишите Майк, мафия старт.", dialog_id);
                             //Отправить в лс то же самое сообщение.
+                            Bot.API.Message.Send($"Вы присоеденились к игре!", id);
                         } else
                         {
                             Bot.API.Message.Send("Максимальное количество игроков достигнуто. Пожалуйста, начните игру. Для этого напишите Майк, мафия старт.", dialog_id);
