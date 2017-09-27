@@ -35,7 +35,7 @@ namespace MikeBot.Mafia.Command
             }
 
             //Отправляем каждому игроку его роль в личные сообщения.
-            for(int i=0;i <count_players;i++ )
+            for(int i=0;i <count_players; i++ )
             {
                 string characters_info = "...";
                 string text = $"Ваша роль: {characters[i]}. Краткое описание:\n{characters_info}";

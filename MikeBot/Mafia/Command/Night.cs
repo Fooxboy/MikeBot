@@ -29,7 +29,7 @@ namespace MikeBot.Mafia.Command
 
 
             //Начинаем проверять каждого пользователя.
-            for(int i=0; info.count_players <i;i++)
+            for(int i=0; info.live_players.Count <i;i++)
             {
                 //if((characters[i] == Characters.get[2])||(characters[i] == Characters.get[10])||(characters[i] == Characters.get[11]))
                 //{
@@ -152,7 +152,7 @@ namespace MikeBot.Mafia.Command
 
 
             //Теперь нам нужно проанализировать всех убитых и убийц. Начнём.
-            for(int i=0; info_game.count_players < i; i++)
+            for(int i=0; info_game.live_players.Count < i; i++)
             {
                 //Проверяем роль
                 string role = Methods.GetCharactersFromId.Start(killer[i], dialog_id);
