@@ -19,8 +19,6 @@ namespace MikeBot
              ThreadSendMessage.Name = "Console";
              ThreadSendMessage.Start(); */
 
-            Console.WriteLine(DateTime.Now.ToString());
-            Console.ReadLine();
         }
 
         private static void SendMessage()

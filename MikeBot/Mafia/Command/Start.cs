@@ -23,7 +23,7 @@ namespace MikeBot.Mafia.Command
             //Получаем список персонажей.
             string[] characters = Logic.Distribution.Start(count_players);
 
-            //Получаем спикок игроков.
+            //Получаем список игроков.
             List<string> players_id = obj.id_players;
 
             List<string> new_charecters = obj.characters;
@@ -49,7 +49,7 @@ namespace MikeBot.Mafia.Command
             model_game.creator_game = obj.creator_game;
             model_game.id_players = obj.id_players;
             model_game.night = obj.night;
-            model_game.live_players = obj.live_players;
+            model_game.live_players = obj.id_players;
             model_game.isStart = "1";
 
             

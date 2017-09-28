@@ -55,7 +55,6 @@ namespace MikeBot.Mafia.Command
                             Bot.API.Message.Send("Максимальное количество игроков достигнуто. Пожалуйста, начните игру. Для этого напишите Майк, мафия старт.", dialog_id);
                         }
                         
-
                     } else
                     {
                         Bot.API.Message.Send("Игра ещё не создана. Напишите Майк, мафия создать.",dialog_id);

@@ -41,12 +41,11 @@ namespace MikeBot.Mafia.Command
 
                             break;
                         case "начинающий бандит":
-                            Bot.API.Message.Send($"Выберите кого хотите убить. Шанс убийства - 50%. \n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
+                            Bot.API.Message.Send($"Выберите кого хотите убить. Шанс убийства - 40%. \n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
 
                             break;
                         case "заказной киллер":
-                            Bot.API.Message.Send($"Выебрите кого хотите убить. Если вы убьёте кого-либо из мафии - Вы лишаетесь своей роли.\n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
-
+                        Bot.API.Message.Send($"Выебрите кого хотите убить. Если вы убьёте кого-либо из мафии - Вы лишаетесь своей роли.\n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
                             break;
 
                         case "доктор":
@@ -100,6 +99,7 @@ namespace MikeBot.Mafia.Command
             resp.dialog_id = dialog_id;
             resp.info_game = info;
 
+            //Запускаем конец ночи.
             TimerCallback timerCallback = new TimerCallback(EndNight);
 
             Timer timer = new Timer(timerCallback, resp, 60000, -1);
