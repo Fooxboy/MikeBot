@@ -5,9 +5,12 @@ using System.IO;
 
 namespace MikeBot.Mafia.Command
 {
+    /// <summary>
+    /// Убить.
+    /// </summary>
     public static class Kill
     {
-        public static void Start(string id, string dialog_id)
+        public static void Start(string id, string dialog_id, string killed)
         {
             //Убить игрока.
 
@@ -17,6 +20,8 @@ namespace MikeBot.Mafia.Command
             if (character.ToLower() == "бандит")
             {
                 //Логика бандита.
+                Logic.Characters.Bandit.Kill(id, killed, dialog_id);
+
             } else if(character.ToLower() == "начинающий бандит")
             {
                 //Логика начинающего бандита.

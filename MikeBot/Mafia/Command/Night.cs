@@ -27,9 +27,22 @@ namespace MikeBot.Mafia.Command
 
             int count_players_action = 0;
 
+            var info_dialog = new InfoDialog(dialog_id);
+
+            int game = info_dialog.CoutGames + 1;
+
+            int night = info.night;
+
+            //Создаём файл, где сказано о всех выборах игроков.
+            System.IO.File.Create($@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt");
+            var model_choise = new Models.Mafia.ChoiseFile();
+            model_choise.users_id = null;
+            model_choise.choise_id = null;
+            string json_choise = JsonConvert.SerializeObject(model_choise);
+            Methods.WriteFile.Start(json_choise, $@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt");
 
             //Начинаем проверять каждого пользователя.
-            for(int i=0; info.live_players.Count <i;i++)
+            for (int i=0; info.live_players.Count <i;i++)
             {
                 //if((characters[i] == Characters.get[2])||(characters[i] == Characters.get[10])||(characters[i] == Characters.get[11]))
                 //{
@@ -90,8 +103,6 @@ namespace MikeBot.Mafia.Command
             model.players_action = count_players_action;
             model.time = info.time;
 
-            var info_dialog = new InfoDialog(dialog_id);
-            int game = info_dialog.CoutGames + 1;
             string json = JsonConvert.SerializeObject(model);
             Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");
 
@@ -362,7 +373,7 @@ namespace MikeBot.Mafia.Command
             model_game.id_players = info_game.id_players;
             model_game.isStart = info_game.isStart;
             model_game.live_players = live_players;
-            model_game.night = info_game.night;
+            model_game.night = info_game.night + 1;
             model_game.players_action = info_game.players_action;
             model_game.time = info_game.time;
 
