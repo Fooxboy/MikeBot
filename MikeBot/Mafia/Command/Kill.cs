@@ -20,11 +20,12 @@ namespace MikeBot.Mafia.Command
             if (character.ToLower() == "бандит")
             {
                 //Логика бандита.
-                Logic.Characters.Bandit.Kill(id, killed, dialog_id);
+                Logic.Characters.Bandit.Kill(killed,id, dialog_id);
 
             } else if(character.ToLower() == "начинающий бандит")
             {
                 //Логика начинающего бандита.
+                Logic.Characters.New_Bandit.Kill(killed, id, dialog_id);
             } else if (character.ToLower() == "заказной киллер")
             {
                 //Логика заказного киллера.
