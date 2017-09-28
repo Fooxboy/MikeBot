@@ -151,8 +151,6 @@ namespace MikeBot.Mafia.Command
             //Его обворавали
             List<string> stealed = null;
 
-            //Его роль узнали
-            List<string> opened_role = null;
 
             //Вылечены доктором
             List<string> treated_from_doctor = null;
