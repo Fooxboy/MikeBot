@@ -15,8 +15,8 @@ namespace MikeBot.Mafia.Logic.Characters
             var model_choise = new ChoiseFile();
             List<string> users_id = info_choise.users_id;
             List<string> choise_id = info_choise.choise_id;
-            users_id.Add(from);
-            choise_id.Add(id);
+            users_id.Add(id);
+            choise_id.Add(from);
             model_choise.choise_id = choise_id;
             model_choise.users_id = users_id;
             model_choise.killed = info_choise.killed;
