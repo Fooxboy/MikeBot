@@ -63,7 +63,7 @@ namespace MikeBot.Mafia.Command
                         case "гадалка":
                             Bot.API.Message.Send($"Выберите того, чью роль вы хотите узнать. Ваши шансы узнать роль - 50%.\n{players_game}\nПример: Майк, мафия гадать 2.", users[i]);
 
-                            break;
+                            break; 
                         case "спасатель":
                             Bot.API.Message.Send($"Выберите кого хотите спасти. Ваши шансы кого-либо спасти - 20%\n{players_game}\nПример: Майк, мафия спасти 2", users[i]);
 
@@ -124,9 +124,9 @@ namespace MikeBot.Mafia.Command
             //Получаем файл с выбором.
             var info_choise = new InfoChoise(dialog_id, info_game.night.ToString());
 
-            List<string> killed = info_choise.choise_id;
-            List<string> killer = info_choise.users_id;
-            List<string> killeders = info_choise.killed;
+            List<string> killed = info_choise.choise_id;//Кого убили
+            List<string> killer = info_choise.users_id; //Кто убил
+            List<string> killeders = info_choise.killed; //Кто уже убит.
 
             //Убиты бандитом.
             List<string> killed_from_bandit = null;
@@ -187,10 +187,10 @@ namespace MikeBot.Mafia.Command
                         stealed.Add(killed[i]);
 
                         break;
-                    case "гадалка":
+                   /* case "гадалка":
                         opened_role.Add(killed[i]);
 
-                        break;
+                        break; */
                     case "спасатель":
                         helpered.Add(killed[i]);
                         break;
