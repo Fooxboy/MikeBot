@@ -32,10 +32,20 @@ namespace MikeBot.Mafia.Command
                         int count_players = obj.count_players;
                         List<string> players = obj.id_players;
 
+                        
+
                         if((count_players <10)||(count_players == 10))
                         {
                             //Добавляем нового игрока.
-                            players.Add(id);
+                            if (players == null)
+                            {
+                                players = new List<string>();
+
+                                players.Add(id);
+                            } else
+                            {
+                                players.Add(id);
+                            }
 
                             //переопределяем объект.
                             Models.Mafia.GameFile gamemodel = new Models.Mafia.GameFile();

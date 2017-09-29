@@ -56,7 +56,6 @@ namespace MikeBot.Mafia.Logic
             array[2] = Mafia.Characters.get[7]; //Алкоголик
             array[3] = Mafia.Characters.get[10]; //заказной киллер
             array[4] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //рандом
-            array[5] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
             return array;
         }
 
@@ -70,7 +69,6 @@ namespace MikeBot.Mafia.Logic
             array[3] = Mafia.Characters.get[10]; //заказной киллер
             array[4] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //рандом
             array[5] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[6] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
             return array;
         }
 
@@ -85,8 +83,7 @@ namespace MikeBot.Mafia.Logic
             array[3] = Mafia.Characters.get[10]; //заказной киллер
             array[4] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //рандом
             array[5] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[6] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[7] = Mafia.Characters.get[2];//шериф
+            array[6] = Mafia.Characters.get[2];//шериф
             return array;
         }
 
@@ -101,9 +98,8 @@ namespace MikeBot.Mafia.Logic
             array[3] = Mafia.Characters.get[10]; //заказной киллер
             array[4] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //рандом
             array[5] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[6] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[7] = Mafia.Characters.get[2];//шериф
-            array[8] = Mafia.Characters.get[9];//начинающий бандит
+            array[6] = Mafia.Characters.get[2];//шериф
+            array[7] = Mafia.Characters.get[9];//начинающий бандит
             return array;
         }
         private static string[] players9()
@@ -117,10 +113,9 @@ namespace MikeBot.Mafia.Logic
             array[3] = Mafia.Characters.get[10]; //заказной киллер
             array[4] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //рандом
             array[5] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[6] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[7] = Mafia.Characters.get[2];//шериф
-            array[8] = Mafia.Characters.get[9];//начинающий бандит
-            array[9] = Mafia.Characters.get[6]; //гадалка
+            array[6] = Mafia.Characters.get[2];//шериф
+            array[7] = Mafia.Characters.get[9];//начинающий бандит
+            array[8] = Mafia.Characters.get[6]; //гадалка
             return array;
         }
 
@@ -135,11 +130,10 @@ namespace MikeBot.Mafia.Logic
             array[3] = Mafia.Characters.get[10]; //заказной киллер
             array[4] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //рандом
             array[5] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[6] = Mafia.Characters.get[rand.Next(0, Mafia.Characters.get.Length)]; //ранжом
-            array[7] = Mafia.Characters.get[2];//шериф
-            array[8] = Mafia.Characters.get[9];//начинающий бандит
-            array[9] = Mafia.Characters.get[6]; //гадалка
-            array[10] = Mafia.Characters.get[4]; //блудница
+            array[6] = Mafia.Characters.get[2];//шериф
+            array[7] = Mafia.Characters.get[9];//начинающий бандит
+            array[8] = Mafia.Characters.get[6]; //гадалка
+            array[9] = Mafia.Characters.get[4]; //блудница
             return array;
         }
     }

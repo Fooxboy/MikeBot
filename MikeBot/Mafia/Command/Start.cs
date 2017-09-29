@@ -26,13 +26,20 @@ namespace MikeBot.Mafia.Command
             //Получаем список игроков.
             List<string> players_id = obj.id_players;
 
-            List<string> new_charecters = obj.characters;
+            List<string> new_charecters = new List<string>();
 
-            //Заполняем массив персонажей
-            for(int i=0; i< count_players; i++)
+            if(obj.characters == null)
             {
-                new_charecters[i] = characters[i];
-            }
+
+                for (int i = 0; i < count_players; i++)
+                {
+                    new_charecters.Add(characters[i]);
+                }
+
+            } else
+            {
+                new_charecters = obj.characters;
+            }         
 
             //Отправляем каждому игроку его роль в личные сообщения.
             for(int i=0;i <count_players; i++ )

@@ -29,7 +29,10 @@ namespace MikeBot.Mafia.Command
                 //Не существует. Создаём её.
                 Directory.CreateDirectory($@"MafiaGames\{dialog_id}");
                 //Создаём главный файл этой беседы со всей статистикой
-                File.Create($@"MafiaGames\{dialog_id}\Main.txt");
+                using (File.Create($@"MafiaGames\{dialog_id}\Main.txt"))
+                {
+
+                }
                 //Заполняем данными файл.
                 var model = new Models.Mafia.MainFile();
                 model.count_games = 0;
@@ -49,7 +52,11 @@ namespace MikeBot.Mafia.Command
             int count_games = info.CoutGames;
             //Создаём файл игры.
             int name_game = count_games++;
-            File.Create($@"MafiaGames\{dialog_id}\{name_game}.txt");
+
+            using (File.Create($@"MafiaGames\{dialog_id}\{name_game}.txt"))
+            {
+
+            }
 
             var model_game = new Models.Mafia.GameFile();     
             model_game.creator_game = id;
@@ -58,7 +65,7 @@ namespace MikeBot.Mafia.Command
             string json_game = JsonConvert.SerializeObject(model_game);
             Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.txt");
 
-            Bot.API.Message.Send("Игра создана. Чтобы присоедениться напишите Марк, мафия присоедениться.", dialog_id);
+            Bot.API.Message.Send("Игра создана. Чтобы присоединиться напишите Майк, мафия присоединиться.", dialog_id);
         }
     }
 }

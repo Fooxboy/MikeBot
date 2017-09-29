@@ -21,7 +21,10 @@ namespace MikeBot.Mafia.Command
             int game = info_dialog.CoutGames + 1;
             int night = info_game.night;
 
-            File.Create($@"MafiaGames\{dialog_id}\{game}_choise_day{night}.txt");
+            using (File.Create($@"MafiaGames\{dialog_id}\{game}_choise_day{night}.txt"))
+            {
+
+            }
 
             string list_players = Logic.StringPlayers.Start(info_game.live_players);
 

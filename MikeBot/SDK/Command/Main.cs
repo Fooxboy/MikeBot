@@ -18,16 +18,16 @@ namespace MikeBot.SDK.Command
 
             string user_id_from;
 
-           if(attach.from == null)
-           {
+            if (attach.from == null)
+            {
                 //Если сообщение в лс.
                 user_id_from = peer_id;
-           } else
+            } else
             {
                 //Если сообщение в беседе.
                 user_id_from = attach.from;
             }
-                     
+
             Global.array_longPoll = array;
 
 
@@ -43,34 +43,55 @@ namespace MikeBot.SDK.Command
                 //Проверка на юзера в бд.
                 var user = new Database.API.UserInfo(user_id_from);
 
-                if( user_id_from == null)
+                if (user_id_from == null)
                 {
                     throw new Exception("вы ахуели, сер!");
                 }
-                if(user.IsUser)
+                if (user.IsUser)
                 {
-                    if(user.Ban == "")
+                    if (user.Ban == "")
                     {
                         //Бана нет.
 
+                        var model_response = new ResponseSDKCommand();
+                        model_response.arg = array_message;
+                        model_response.attach = attach;
+                        model_response.message = message;
+                        model_response.message_flag = message_flags;
+                        model_response.message_id = message_id;
+                        model_response.peer_id = peer_id;
+                        model_response.id = user_id_from;
+                        model_response.time = time;
+
                         //Запускаем обработку.
                         Thread threadProccesing = new Thread(new ParameterizedThreadStart(Proccesing_message));
-                        threadProccesing.Start(array_message);
+                        threadProccesing.Start(model_response);
                         threadProccesing.Name = "Proccesing_message";
                     } else
                     {
                         //Чел в бане. Иди нахуй.
                     }
-                }else
+                } else
                 {
                     //Пользователя нет в базе данных.
                     //Создаём строку с пользователем.
                     Bot.API.User.NewUser(user_id_from);
 
                     //запускаем обработку.
+
+                    var model_response = new ResponseSDKCommand();
+                    model_response.arg = array_message;
+                    model_response.attach = attach;
+                    model_response.message = message;
+                    model_response.message_flag = message_flags;
+                    model_response.message_id = message_id;
+                    model_response.peer_id = peer_id;
+                    model_response.id = user_id_from;
+                    model_response.time = time;
+
                     Debug.Waring("Поток Proccesing");
                     Thread threadProccesing = new Thread(new ParameterizedThreadStart(Proccesing_message));
-                    threadProccesing.Start(array_message);
+                    threadProccesing.Start(model_response);
                     threadProccesing.Name = "Proccesing_message";
                 }
 
@@ -78,11 +99,11 @@ namespace MikeBot.SDK.Command
 
         }
 
-        private static void Proccesing_message(object array)
+        private static void Proccesing_message(object reponse)
         {
-            string[] array_message = (string[])array;
+            var resp = (ResponseSDKCommand)reponse;
             Proccesing procc = new Proccesing();
-            procc.Run(array_message);
+            procc.Run(resp);
         }
 
         private static string[] Split(string message)
@@ -93,7 +114,7 @@ namespace MikeBot.SDK.Command
 
         private static bool CheckName(string name)
         {
-            if ((name == "Майк") || (name == "майк") || (name== "Майк,") || (name == "майк,"))
+            if ((name == "Майк") || (name == "майк") || (name == "Майк,") || (name == "майк,"))
             {
                 return true;
             }
@@ -103,5 +124,17 @@ namespace MikeBot.SDK.Command
             }
         }
 
+    }
+
+    public class ResponseSDKCommand
+    {
+        public string[] arg { get; set; }
+        public string message_id { get; set; }
+        public string message_flag { get; set; }
+        public string peer_id { get; set; }
+        public string time { get; set; }
+        public string message { get; set; }
+        public string id { get; set; }
+        public Models.Attach attach { get; set; }
     }
 }

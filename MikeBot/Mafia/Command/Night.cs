@@ -20,7 +20,7 @@ namespace MikeBot.Mafia.Command
             List<string> characters = info.characters;
 
             //Получаем список игроков
-            List<string> users = info.id_players;
+            List<string> users = info.live_players;
 
             //Получаем текст об игроках.
             string players_game = Logic.StringPlayers.Start(users);
@@ -34,7 +34,10 @@ namespace MikeBot.Mafia.Command
             int night = info.night;
 
             //Создаём файл, где сказано о всех выборах игроков.
-            System.IO.File.Create($@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt");
+            using (System.IO.File.Create($@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt"))
+            {
+
+            }
             var model_choise = new Models.Mafia.ChoiseFile();
             model_choise.users_id = null;
             model_choise.choise_id = null;

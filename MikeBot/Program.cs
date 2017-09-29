@@ -10,7 +10,7 @@ namespace MikeBot
         {
             Debug.Waring("Старт бота...");
 
-            /* Debug.Waring("Запуск потока 1");
+             Debug.Waring("Запуск потока 1");
              Thread ThreadLongPoll = new Thread(new ThreadStart(StartLongPoll));
              ThreadLongPoll.Name = "LongPoll";
              ThreadLongPoll.Start();
@@ -18,10 +18,7 @@ namespace MikeBot
              Debug.Waring("Запуск потока 2");
              Thread ThreadSendMessage = new Thread(new ThreadStart(SendMessage));
              ThreadSendMessage.Name = "Console";
-             ThreadSendMessage.Start(); */
-
-
-
+             ThreadSendMessage.Start();
         }
 
         private static void SendMessage()

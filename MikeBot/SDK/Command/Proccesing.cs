@@ -6,9 +6,10 @@ namespace MikeBot.SDK.Command
 {
     public class Proccesing
     {
-        public void Run(string[] array)
+        public void Run(ResponseSDKCommand response)
         {
             //Получаем команду
+            string[] array = response.arg;
             string comand = array[1].ToLower();
 
             int count = array.Length;
@@ -31,7 +32,7 @@ namespace MikeBot.SDK.Command
             }
 
             //В итоге мы получам массив набитый аргументами.
-            switch (comand)
+            switch (comand.ToLower())
             {
                 case "test":
                     MikeBot.Command.Test.Start(arguments_array);
@@ -39,8 +40,12 @@ namespace MikeBot.SDK.Command
                 case "переведи":
                     MikeBot.Command.Translate.Start(arguments_array);
                     break;
+                case "мафия":
+                    MikeBot.Command.Mafia.Start(arguments_array, response.peer_id, response.id);
+                    break;
                 default:
                     //Нет команды
+                    MikeBot.Bot.API.Message.Send("Неизвестная команда.", response.peer_id);
                     break;
             }
         }
