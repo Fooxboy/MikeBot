@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Linq;
 
 namespace MikeBot
 {
@@ -18,6 +19,8 @@ namespace MikeBot
              Thread ThreadSendMessage = new Thread(new ThreadStart(SendMessage));
              ThreadSendMessage.Name = "Console";
              ThreadSendMessage.Start(); */
+
+
 
         }
 

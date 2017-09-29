@@ -9,7 +9,7 @@ namespace MikeBot.Mafia.Command
 {
     public static class Night
     {
-        public static void Start(string id, string dialog_id)
+        public static void Start(string dialog_id)
         {
             //Ночь.
 
