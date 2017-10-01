@@ -68,6 +68,7 @@ namespace MikeBot.Command
                     break;
                 case "ночь":
                     MikeBot.Mafia.Command.Night.Start(dialog_id);
+                    break;
                 default:
                     Bot.API.Message.Send("Такой команды не существует.", id);
                     break;

@@ -335,9 +335,28 @@ namespace MikeBot.Mafia.Command
             }
 
             //Мы получили id игроков, которые будут убиты.
-            killeders.Add(kill);
+
+            string retrn = "";
+
+            if(killeders == null)
+            {
+                if(kill == "")
+                {
+                    retrn = $"Этой ночью никто не погиб. Живучие пидоры.";
+                }else
+                {
+                    var user =  API.Method.Users.Get.Start(kill).obj.response[0];
+                    retrn = $"Этой ночью погиб: [{kill}|{user.first_name} {user.last_name}] был {Methods.GetCharactersFromId.Start(kill,dialog_id)}";
+                }
+              
+            } else
+            {
+                killeders.Add(kill);
+                retrn = $"Этой ночью погибли:/n {Logic.GetKillText.Start(killeders, dialog_id)}";
+            }
             
-            string retrn = $"Этой ночью погибли:/n {Logic.GetKillText.Start(killeders, dialog_id)}";
+            
+            
 
             List<string> live_players = info_game.live_players;
 

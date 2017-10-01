@@ -1,0 +1,1 @@
+{"users_id":null,"choise_id":null,"killed":null}

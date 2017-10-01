@@ -34,7 +34,7 @@ namespace MikeBot.Mafia.Command
 
                         
 
-                        if((count_players <10)||(count_players == 10))
+                        if((count_players < 10)||(count_players == 10))
                         {
                             //Добавляем нового игрока.
                             if (players == null)
@@ -56,7 +56,7 @@ namespace MikeBot.Mafia.Command
                             //Записываем в файл.
                             Methods.WriteFile.Start(new_json, $@"MafiaGames\{dialog_id}\{game}.txt");
 
-                            int count_new_players = count_players++;
+                            int count_new_players = count_players + 1;
                             Bot.API.Message.Send($"Вы присоеденились к игре! Количество игроков, которые присоеденились: {count_new_players}. Чтобы начать игру напишите Майк, мафия старт.", dialog_id);
                             //Отправить в лс то же самое сообщение.
                             Bot.API.Message.Send($"Вы присоеденились к игре!", id);
