@@ -1,1 +1,0 @@
-{"count_games":0,"first_game":"01.10.2017 19:46:13","last_game":"01.10.2017 19:46:13","best_player":"None","max_players":0,"max_night":0}
