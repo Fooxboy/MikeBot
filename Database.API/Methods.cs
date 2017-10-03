@@ -5,9 +5,9 @@ namespace Database.API
 {
     public class Methods 
     {
-        public static string connection_string;
+        string connection_string = "";
 
-        public static string table;
+        string table = "";
 
         public Methods(string connection, string Table) 
         {
@@ -68,7 +68,16 @@ namespace Database.API
             reader.Close();
             connect.Close();
             return response;
+        }
 
+        public void Add(string fields, string values) 
+        {
+            connect.Open();
+
+            string sql = $@"INSERT INTO {table} ({fields}) VALUES ({values});";
+            MySqlCommand command = new MySqlCommand(sql, connect);
+            command.ExecuteScalar();
+            connect.Close();
         }
     }
 }
