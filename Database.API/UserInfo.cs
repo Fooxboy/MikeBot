@@ -1,130 +1,72 @@
-﻿ using System;
+using System;
 using MySql.Data.MySqlClient;
 
-namespace Database.API
+namespace  Database.API
 {
-    /// <summary>
-    /// Класс для получения информации о пользователе с базы данных.
-    /// </summary>
     public class UserInfo
-    {
-        string _user_id;
-
-        /// <summary>
-        /// При создании объекта указываем id.
-        /// </summary>
-        /// <param name="id"></param>
-        public UserInfo(string id)
+     {
+        string id = "";
+        var method = new Methods();
+        public UserInfo(string user_id) 
         {
-            _user_id = id;
+            id = user_id;
         }
 
-        /// <summary>
-        /// Имя.
-        /// </summary>
-        public string Name
+        public string Name 
         {
-            get
+            get 
             {
-                return GetName(_user_id);
+                return method.GetFromId("name", id);
             }
-            set
+            set 
             {
-                SetName(_user_id, this.Name);
+                method.EditField(id, "name", Name);
             }
         }
 
-        /// <summary>
-        /// Время бана или пустая строка, если человек не в бане.
-        /// </summary>
-        public string Ban
+        public string Ban 
         {
-            get
+            get 
             {
-                return GetBan(_user_id);
+                return method.GetFromId("ban", id);
             }
-            set
+            set 
             {
-                SetBan(_user_id, this.Ban);
+                method.EditField(id, "ban", Ban);
             }
         }
 
-        /// <summary>
-        /// Проверка пользователя в базе данных.
-        /// </summary>
-        public bool IsUser
+        public bool IsUser 
         {
-            get
+            get 
             {
-                return GetIsUser(_user_id);
+                return method.CheckUser(id);
             }
         }
 
-        public bool IsAdmin
+        public bool IsAdmin 
         {
-            get
+            get 
             {
-                return GetIsAdmin(_user_id);
+               string value = method.GetFromId("admin", id);
+               
+               if(value == "1") 
+               {
+                   return true;
+               } else 
+               {
+                   return false;
+               }
             }
-            set
+            set 
             {
-                SetIsAdmin(_user_id);
+                if(IsAdmin) 
+                {
+                    method.EditField(id, "admin", "1");
+                } else {
+                    method.EditField(id, "admin", "0");
+                }
             }
-        }
-
-        //Классы для упращения записи.
-        private string GetName(string id)
-        {
-            MySQL.Connect connect = new MySQL.Connect();
-
-            return connect.Get_From_id("name", id);
-        }
-
-        private  bool GetIsUser(string id)
-        {
-            MySQL.Connect connect = new MySQL.Connect();
-            return connect.CheckUser(id);
-        }
-
-        private string GetBan(string id)
-        {
-            MySQL.Connect connect = new MySQL.Connect();
-
-            return connect.Get_From_id("ban", id);
-        }
-
-        private bool GetIsAdmin(string id)
-        {
-            MySQL.Connect connect = new MySQL.Connect();
-            string value = connect.Get_From_id("admin", id);
-            if(value == "1")
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
-
-        private void SetName(string id, string value)
-        {
-            MySQL.Connect connect = new MySQL.Connect();
-
-            connect.EditField(id, "name", value);
-        }
-
-        private void SetBan(string id, string value)
-        {
-            MySQL.Connect connect = new MySQL.Connect();
-
-            connect.EditField(id, "ban", value);
-        }
-
-        private void SetIsAdmin(string id)
-        {
-            MySQL.Connect connect = new MySQL.Connect();
-
-            connect.EditField(id, "admin", "1");
         }
     }
 }
