@@ -8,7 +8,7 @@ namespace MikeBot.Mafia
     {
         public static void Start()
         {
-
+            //ШТООО
         }
     }
 }

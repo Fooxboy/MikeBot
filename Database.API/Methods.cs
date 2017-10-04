@@ -5,9 +5,9 @@ namespace Database.API
 {
     public class Methods 
     {
-        string connection_string = "";
+        static string  connection_string = "";
 
-        string table = "";
+        static string table = "";
 
         public Methods(string connection, string Table) 
         {
@@ -47,7 +47,7 @@ namespace Database.API
             string sql  = $"UPDATE {table}  SET `{field}`='{value}' WHERE `id`='{id}';";
             MySqlCommand command = new MySqlCommand(sql, connect);
             command.ExecuteScalar();
-            connect.Close;
+            connect.Close();
         }
 
         public bool CheckUser(string id)

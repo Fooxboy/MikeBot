@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -45,7 +44,7 @@ namespace MikeBot.Mafia.Command
                 //получаем json
                 string json = Methods.SerializeMain.Start(model);
                 //Записываем в файл.
-                Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\Main.txt");
+                Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\Main.json");
             }
 
             //Нужно получить инфрмацию о беседе и играх.
@@ -80,7 +79,7 @@ namespace MikeBot.Mafia.Command
 
                 string json_game = JsonConvert.SerializeObject(model);
 
-                Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.txt");
+                Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.json");
 
                 Bot.API.Message.Send("Игра создана. Чтобы присоединиться напишите: Майк, мафия присоединиться.", dialog_id);
             }

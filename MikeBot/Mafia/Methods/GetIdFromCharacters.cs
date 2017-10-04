@@ -10,13 +10,13 @@ namespace MikeBot.Mafia.Methods
         {
             var info_game = new InfoGame(dialog_id);
 
-            List<string> players = info_game.id_players;
+            List<string> players = info_game.IdPlayers;
 
-            List<string> characters = info_game.characters;
+            List<string> characters = info_game.Characters;
 
             List<string> response_id = null;
 
-            for(int i=0; info_game.count_players < i; i++)
+            for(int i=0; info_game.CountPlayers < i; i++)
             {
                 if(characters[i] == character)
                 {

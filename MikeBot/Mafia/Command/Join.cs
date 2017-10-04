@@ -20,17 +20,25 @@ namespace MikeBot.Mafia.Command
                 {
                     var info = new InfoDialog(dialog_id);
                     int count_game = info.CoutGames;
-                    int game = count_game++;
+                    int game = count_game + 1;
 
-                    if (File.Exists($@"MafiaGames\{dialog_id}\{game}.txt"))
+                    if (File.Exists($@"MafiaGames\{dialog_id}\{game}.json"))
                     {
                         //Игра существует, присоедениться можно.
 
                         //Проверяем, есть ли уже игроки, которые присоеденились.
-                        string json = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}.txt");
+
+                        var infoGame = new InfoGame(dialog_id);
+
+                        int count_players = infoGame.CountPlayers;
+                        List<string> players = infoGame.IdPlayers;
+
+                        /*УСТАРЕВШИЙ КОД
+                         * 
+                        string json = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}.json");
                         var obj = JsonConvert.DeserializeObject<Models.Mafia.GameFile>(json);
                         int count_players = obj.count_players;
-                        List<string> players = obj.id_players;
+                        List<string> players = obj.id_players; */
 
                         
 
@@ -47,22 +55,41 @@ namespace MikeBot.Mafia.Command
                                 players.Add(id);
                             }
 
-                            //переопределяем объект.
-                            Models.Mafia.GameFile gamemodel = new Models.Mafia.GameFile();
+
+                            var database = new Database.API.MafiaProfile(id);
+
+                            if (database.IsUser)
+                            {
+                                
+                            } else
+                            {
+                                var method = new Database.API.Methods("mafia_profile");
+                                string fields = @"`id`, `play_id`, `count_game`, `count_win`";
+                                string values2 = $@"'{id}', '0', '0', '0'";
+                                method.Add(fields,values2);
+                            }
+                            database.PlayId = dialog_id;
+
+                            infoGame.IdPlayers = players;
+                            infoGame.CountPlayers = count_players + 1;
+
+                            /*УСТАРЕВШИЙ КОД 
+                             * 
+                            var gamemodel = new Models.Mafia.GameFile();
                             gamemodel.id_players = players;
                             gamemodel.count_players = count_players + 1;
                             //Сериализуем в json строку.
                             string new_json = JsonConvert.SerializeObject(gamemodel);
                             //Записываем в файл.
-                            Methods.WriteFile.Start(new_json, $@"MafiaGames\{dialog_id}\{game}.txt");
+                            Methods.WriteFile.Start(new_json, $@"MafiaGames\{dialog_id}\{game}.txt");*/
 
                             int count_new_players = count_players + 1;
-                            Bot.API.Message.Send($"Вы присоеденились к игре! Количество игроков, которые присоеденились: {count_new_players}. Чтобы начать игру напишите Майк, мафия старт.", dialog_id);
+                            Bot.API.Message.Send($"Вы присоединились к игре! Количество игроков, которые присоеденились: {count_new_players}. Чтобы начать игру напишите Майк, мафия старт.", dialog_id);
                             //Отправить в лс то же самое сообщение.
-                            Bot.API.Message.Send($"Вы присоеденились к игре!", id);
+                            Bot.API.Message.Send($"Вы успешно присоеденились к игре!", id);
                         } else
                         {
-                            Bot.API.Message.Send("Максимальное количество игроков достигнуто. Пожалуйста, начните игру. Для этого напишите Майк, мафия старт.", dialog_id);
+                            Bot.API.Message.Send("Максимальное количество игроков достигнуто. Пожалуйста, начните игру. Для этого напишите: Майк, мафия старт.", dialog_id);
                         }
                         
                     } else
@@ -71,11 +98,11 @@ namespace MikeBot.Mafia.Command
                     }
                 } else
                 {
-                    Bot.API.Message.Send("Папка с игрой этого диалога не найдена. Чтобы создать новую игру, напишите Майк, мафия создать", dialog_id);
+                    Bot.API.Message.Send("Папка с игрой этого диалога не найдена. Чтобы создать новую игру, напишите: Майк, мафия создать.", dialog_id);
                 }
             } else
             {
-                Bot.API.Message.Send("Не найдена глобальная папка проекта. Чтобы создать игру, напишите Майк, мафия создать", dialog_id);
+                Bot.API.Message.Send("Не найдена глобальная папка проекта. Чтобы создать игру, напишите: Майк, мафия создать.", dialog_id);
             }
         }
     }

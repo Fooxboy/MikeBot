@@ -16,7 +16,7 @@ namespace MikeBot.Mafia
 
             int game = info_dialog.CoutGames + 1;
 
-            string json = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt");
+            string json = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}_choise_night{night}.json");
 
             info = JsonConvert.DeserializeObject<ChoiseFile>(json);
         }

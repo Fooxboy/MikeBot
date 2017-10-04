@@ -16,7 +16,7 @@ namespace MikeBot.Mafia
         public InfoDialog(string id_dialog)
         {
             id = id_dialog;
-            string path = $@"MafiaGames\{id}\Main.txt";
+            string path = $@"MafiaGames\{id}\Main.json";
             string json = Methods.ReadFile.Start(path);
             obj = Methods.DeserializeMain.Start(json);
         }
@@ -33,7 +33,7 @@ namespace MikeBot.Mafia
             }
             set
             {
-                string path = $@"MafiaGames\{id}\Main.txt";
+                string path = $@"MafiaGames\{id}\Main.json";
                 var info = new InfoDialog(id);
                 var model = new Models.Mafia.MainFile();
                 model.count_games = CoutGames;
@@ -60,7 +60,7 @@ namespace MikeBot.Mafia
             }
             set
             {
-                string path = $@"MafiaGames\{id}\Main.txt";
+                string path = $@"MafiaGames\{id}\Main.json";
                 var info = new InfoDialog(id);
                 var model = new Models.Mafia.MainFile();
                 model.count_games = info.CoutGames;
@@ -87,7 +87,7 @@ namespace MikeBot.Mafia
             }
             set
             {
-                string path = $@"MafiaGames\{id}\Main.txt";
+                string path = $@"MafiaGames\{id}\Main.json";
                 var info = new InfoDialog(id);
                 var model = new Models.Mafia.MainFile();
                 model.count_games = info.CoutGames;
@@ -114,7 +114,7 @@ namespace MikeBot.Mafia
             }
             set
             {
-                string path = $@"MafiaGames\{id}\Main.txt";
+                string path = $@"MafiaGames\{id}\Main.json";
                 var info = new InfoDialog(id);
                 var model = new Models.Mafia.MainFile();
                 model.count_games = info.CoutGames;
@@ -141,7 +141,7 @@ namespace MikeBot.Mafia
             }
             set
             {
-                string path = $@"MafiaGames\{id}\Main.txt";
+                string path = $@"MafiaGames\{id}\Main.json";
                 var info = new InfoDialog(id);
                 var model = new Models.Mafia.MainFile();
                 model.count_games = info.CoutGames;
@@ -168,7 +168,7 @@ namespace MikeBot.Mafia
             }
             set
             {
-                string path = $@"MafiaGames\{id}\Main.txt";
+                string path = $@"MafiaGames\{id}\Main.json";
                 var info = new InfoDialog(id);
                 var model = new Models.Mafia.MainFile();
                 model.count_games = info.CoutGames;
@@ -192,7 +192,7 @@ namespace MikeBot.Mafia
             }
             set
             {
-                string path = $@"MafiaGames\{id}\Main.txt";
+                string path = $@"MafiaGames\{id}\Main.json";
                 var info = new InfoDialog(id);
                 var model = new Models.Mafia.MainFile();
                 model.count_games = info.CoutGames;

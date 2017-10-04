@@ -15,7 +15,7 @@ namespace MikeBot.Mafia
             var info = new InfoDialog(dialog_id);
             int count_game = info.CoutGames;
             int game = count_game++;
-            path = $@"MafiaGames\{dialog_id}\{game}.txt";
+            path = $@"MafiaGames\{dialog_id}\{game}.json";
             string json = Methods.ReadFile.Start(path);
             model = JsonConvert.DeserializeObject<Models.Mafia.GameFile>(json);
             id = dialog_id;
