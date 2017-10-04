@@ -68,6 +68,7 @@ namespace MikeBot.Mafia.Command
                                 string values2 = $@"'{id}', '0', '0', '0'";
                                 method.Add(fields,values2);
                             }
+
                             database.PlayId = dialog_id;
 
                             infoGame.IdPlayers = players;
