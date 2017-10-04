@@ -79,6 +79,8 @@ namespace MikeBot.Mafia.Command
 
                 string json_game = JsonConvert.SerializeObject(model);
 
+                info.Play = true;
+
                 Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.json");
 
                 Bot.API.Message.Send("Игра создана. Чтобы присоединиться напишите: Майк, мафия присоединиться.", dialog_id);

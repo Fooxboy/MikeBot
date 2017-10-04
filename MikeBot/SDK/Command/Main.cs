@@ -47,6 +47,7 @@ namespace MikeBot.SDK.Command
                 {
                     throw new Exception("вы ахуели, сер!");
                 }
+
                 if (user.IsUser)
                 {
                     if (user.Ban == "")
