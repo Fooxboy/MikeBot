@@ -17,5 +17,7 @@ namespace Models.Mafia
         public int max_players { get; set; }
 
         public int max_night { get; set; }
+
+        public bool play { get; set; }
     }
 }

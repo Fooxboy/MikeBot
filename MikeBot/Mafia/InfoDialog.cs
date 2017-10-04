@@ -12,9 +12,13 @@ namespace MikeBot.Mafia
     public class InfoDialog
     {
         string id;
+        Models.Mafia.MainFile obj = null;
         public InfoDialog(string id_dialog)
         {
             id = id_dialog;
+            string path = $@"MafiaGames\{id}\Main.txt";
+            string json = Methods.ReadFile.Start(path);
+            obj = Methods.DeserializeMain.Start(json);
         }
 
         /// <summary>
@@ -24,7 +28,23 @@ namespace MikeBot.Mafia
         {
             get
             {
-                return GetCountGames(id);
+                
+                return obj.count_games;
+            }
+            set
+            {
+                string path = $@"MafiaGames\{id}\Main.txt";
+                var info = new InfoDialog(id);
+                var model = new Models.Mafia.MainFile();
+                model.count_games = CoutGames;
+                model.best_player = info.BestPlayer;
+                model.first_game = info.FirstGame;
+                model.last_game = info.LastGame;
+                model.max_night = info.MaxNight;
+                model.max_players = info.MaxPlayers;
+                model.play = info.Play;
+                string json = JsonConvert.SerializeObject(model);
+                Methods.WriteFile.Start(json, path);
             }
         }
 
@@ -35,7 +55,23 @@ namespace MikeBot.Mafia
         {
             get
             {
-                return GetFirstGame(id);
+               
+                return obj.first_game;
+            }
+            set
+            {
+                string path = $@"MafiaGames\{id}\Main.txt";
+                var info = new InfoDialog(id);
+                var model = new Models.Mafia.MainFile();
+                model.count_games = info.CoutGames;
+                model.best_player = info.BestPlayer;
+                model.first_game = FirstGame;
+                model.last_game = info.LastGame;
+                model.max_night = info.MaxNight;
+                model.max_players = info.MaxPlayers;
+                model.play = info.Play;
+                string json = JsonConvert.SerializeObject(model);
+                Methods.WriteFile.Start(json, path);
             }
         }
 
@@ -46,7 +82,23 @@ namespace MikeBot.Mafia
         {
             get
             {
-                return GetLastGame(id);
+               
+                return obj.last_game;
+            }
+            set
+            {
+                string path = $@"MafiaGames\{id}\Main.txt";
+                var info = new InfoDialog(id);
+                var model = new Models.Mafia.MainFile();
+                model.count_games = info.CoutGames;
+                model.best_player = info.BestPlayer;
+                model.first_game = info.FirstGame;
+                model.last_game = LastGame;
+                model.max_night = info.MaxNight;
+                model.max_players = info.MaxPlayers;
+                model.play = info.Play;
+                string json = JsonConvert.SerializeObject(model);
+                Methods.WriteFile.Start(json, path);
             }
         }
 
@@ -57,7 +109,23 @@ namespace MikeBot.Mafia
         {
             get
             {
-                return GetBestPlayer(id);
+               
+                return obj.best_player;
+            }
+            set
+            {
+                string path = $@"MafiaGames\{id}\Main.txt";
+                var info = new InfoDialog(id);
+                var model = new Models.Mafia.MainFile();
+                model.count_games = info.CoutGames;
+                model.best_player = info.BestPlayer;
+                model.first_game = info.FirstGame;
+                model.last_game = LastGame;
+                model.max_night = info.MaxNight;
+                model.max_players = info.MaxPlayers;
+                model.play = info.Play;
+                string json = JsonConvert.SerializeObject(model);
+                Methods.WriteFile.Start(json, path);
             }
         }
 
@@ -68,7 +136,23 @@ namespace MikeBot.Mafia
         {
             get
             {
-                return GetMaxPlayers(id);
+               
+                return obj.max_players;
+            }
+            set
+            {
+                string path = $@"MafiaGames\{id}\Main.txt";
+                var info = new InfoDialog(id);
+                var model = new Models.Mafia.MainFile();
+                model.count_games = info.CoutGames;
+                model.best_player = info.BestPlayer;
+                model.first_game = info.FirstGame;
+                model.last_game = info.LastGame;
+                model.max_night = info.MaxNight;
+                model.max_players = MaxPlayers;
+                model.play = info.Play;
+                string json = JsonConvert.SerializeObject(model);
+                Methods.WriteFile.Start(json, path);
             }
         }
 
@@ -79,59 +163,48 @@ namespace MikeBot.Mafia
         {
             get
             {
-                return GetMaxNight(id);
+                
+                return obj.max_night;
+            }
+            set
+            {
+                string path = $@"MafiaGames\{id}\Main.txt";
+                var info = new InfoDialog(id);
+                var model = new Models.Mafia.MainFile();
+                model.count_games = info.CoutGames;
+                model.best_player = info.BestPlayer;
+                model.first_game = info.FirstGame;
+                model.last_game = info.LastGame;
+                model.max_night = MaxNight;
+                model.max_players = info.MaxPlayers;
+                model.play = info.Play;
+                string json = JsonConvert.SerializeObject(model);
+                Methods.WriteFile.Start(json, path);
             }
         }
 
-        private string GetFirstGame(string id)
+        public bool Play
         {
-            string path = $@"MafiaGames\{id}\Main.txt";
-            string json = Methods.ReadFile.Start(path);
-            var obj = Methods.DeserializeMain.Start(json);
-            return obj.first_game;
-
+            get
+            {
+               
+                return obj.play;
+            }
+            set
+            {
+                string path = $@"MafiaGames\{id}\Main.txt";
+                var info = new InfoDialog(id);
+                var model = new Models.Mafia.MainFile();
+                model.count_games = info.CoutGames;
+                model.best_player = info.BestPlayer;
+                model.first_game = info.FirstGame;
+                model.last_game = info.LastGame;
+                model.max_night = info.MaxNight;
+                model.max_players = info.MaxPlayers;
+                model.play = Play;
+                string json = JsonConvert.SerializeObject(model);
+                Methods.WriteFile.Start(json, path);
+            }
         }
-
-        private string GetBestPlayer(string id)
-        {
-            string path = $@"MafiaGames\{id}\Main.txt";
-            string json = Methods.ReadFile.Start(path);
-            var obj = Methods.DeserializeMain.Start(json);
-            return obj.best_player;
-        }
-
-        private int GetMaxPlayers(string id)
-        {
-            string path = $@"MafiaGames\{id}\Main.txt";
-            string json = Methods.ReadFile.Start(path);
-            var obj = Methods.DeserializeMain.Start(json);
-            return obj.max_players;
-        }
-
-        private int GetMaxNight(string id)
-        {
-            string path = $@"MafiaGames\{id}\Main.txt";
-            string json = Methods.ReadFile.Start(path);
-            var obj = Methods.DeserializeMain.Start(json);
-            return obj.max_night;
-        }
-
-        private string GetLastGame(string id)
-        {
-            string path = $@"MafiaGames\{id}\Main.txt";
-            string json = Methods.ReadFile.Start(path);
-            var obj = Methods.DeserializeMain.Start(json);
-            return obj.last_game;
-        }
-
-        private int GetCountGames(string id_dialog)
-        {
-            //Читаем данные с файла.
-            string path = $@"MafiaGames\{id_dialog}\Main.txt";
-            string json = Methods.ReadFile.Start(path);
-            var obj = Methods.DeserializeMain.Start(json);
-            return obj.count_games;
-        }
-
     }
 }

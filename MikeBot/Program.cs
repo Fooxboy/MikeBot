@@ -15,10 +15,10 @@ namespace MikeBot
              ThreadLongPoll.Name = "LongPoll";
              ThreadLongPoll.Start();
 
-             Debug.Waring("Запуск потока 2");
+             /*Debug.Waring("Запуск потока 2");
              Thread ThreadSendMessage = new Thread(new ThreadStart(SendMessage));
              ThreadSendMessage.Name = "Console";
-             ThreadSendMessage.Start();
+             ThreadSendMessage.Start();*/
         }
 
         private static void SendMessage()

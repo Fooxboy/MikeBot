@@ -1,5 +1,5 @@
 using System;
-using MySqlClient;
+using MySql.Data.MySqlClient;
 
 namespace Database.API
 {

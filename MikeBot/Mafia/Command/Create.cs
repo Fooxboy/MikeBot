@@ -16,7 +16,7 @@ namespace MikeBot.Mafia.Command
                 //Существует. Всё хорошо.
             } else
             {
-                //Не существет. Создаём его.
+                //Не существет. Создаём её.
                 Directory.CreateDirectory("MafiaGames");
             }
 
@@ -29,7 +29,7 @@ namespace MikeBot.Mafia.Command
                 //Не существует. Создаём её.
                 Directory.CreateDirectory($@"MafiaGames\{dialog_id}");
                 //Создаём главный файл этой беседы со всей статистикой
-                using (File.Create($@"MafiaGames\{dialog_id}\Main.txt"))
+                using (File.Create($@"MafiaGames\{dialog_id}\Main.json"))
                 {
 
                 }
@@ -38,9 +38,10 @@ namespace MikeBot.Mafia.Command
                 model.count_games = 0;
                 model.first_game = DateTime.Now.ToString();
                 model.last_game = DateTime.Now.ToString();
-                model.best_player = "None";
+                model.best_player = "";
                 model.max_players = 0;
                 model.max_night = 0;
+                model.play = false;
                 //получаем json
                 string json = Methods.SerializeMain.Start(model);
                 //Записываем в файл.
@@ -49,23 +50,31 @@ namespace MikeBot.Mafia.Command
 
             //Нужно получить инфрмацию о беседе и играх.
             var info = new InfoDialog(dialog_id);
-            int count_games = info.CoutGames;
-            //Создаём файл игры.
-            int name_game = count_games++;
 
-            using (File.Create($@"MafiaGames\{dialog_id}\{name_game}.txt"))
+            if (info.Play)
             {
-
+                Bot.API.Message.Send("В этом диалоге уже есть созданная игра! Напишите: Майк, присоединиться.", dialog_id);
             }
+            else
+            {
+                int count_games = info.CoutGames;
+                //Создаём файл игры.
+                int name_game = count_games + 1;
 
-            var model_game = new Models.Mafia.GameFile();     
-            model_game.creator_game = id;
-            model_game.count_players = 0;
-            model_game.night = 0; 
-            string json_game = JsonConvert.SerializeObject(model_game);
-            Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.txt");
+                using (File.Create($@"MafiaGames\{dialog_id}\{name_game}.txt"))
+                {
 
-            Bot.API.Message.Send("Игра создана. Чтобы присоединиться напишите Майк, мафия присоединиться.", dialog_id);
+                }
+
+                var model_game = new Models.Mafia.GameFile();
+                model_game.creator_game = id;
+                model_game.count_players = 0;
+                model_game.night = 0;
+                string json_game = JsonConvert.SerializeObject(model_game);
+                Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.txt");
+
+                Bot.API.Message.Send("Игра создана. Чтобы присоединиться напишите Майк, мафия присоединиться.", dialog_id);
+            }
         }
     }
 }

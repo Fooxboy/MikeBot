@@ -6,7 +6,7 @@ namespace Database.API
     {
         string id = "";
 
-        var method = new Methods("mafia_profile");
+        Methods method = new Methods("mafia_profile");
 
         public MafiaProfile(string user_id) 
         {
@@ -33,7 +33,7 @@ namespace Database.API
             }
             set 
             {
-                method.EditField(id, "count_game", id);
+                method.EditField(id, "count_game", CountGames);
             }
         }
 
@@ -45,7 +45,15 @@ namespace Database.API
             }
             set 
             {
-                method.EditField(id, "count_win", id);
+                method.EditField(id, "count_win", CountWins);
+            }
+        }
+
+        public bool IsUser
+        {
+            get
+            {
+                return method.CheckUser(id);
             }
         }
     }

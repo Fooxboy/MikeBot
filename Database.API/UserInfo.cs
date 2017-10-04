@@ -6,7 +6,7 @@ namespace  Database.API
     public class UserInfo
      {
         string id = "";
-        var method = new Methods();
+        Methods method = new Methods();
         public UserInfo(string user_id) 
         {
             id = user_id;
