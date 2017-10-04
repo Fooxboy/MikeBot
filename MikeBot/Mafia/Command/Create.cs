@@ -61,19 +61,28 @@ namespace MikeBot.Mafia.Command
                 //Создаём файл игры.
                 int name_game = count_games + 1;
 
-                using (File.Create($@"MafiaGames\{dialog_id}\{name_game}.txt"))
+                using (File.Create($@"MafiaGames\{dialog_id}\{name_game}.json"))
                 {
-
+                    
                 }
 
-                var model_game = new Models.Mafia.GameFile();
-                model_game.creator_game = id;
-                model_game.count_players = 0;
-                model_game.night = 0;
-                string json_game = JsonConvert.SerializeObject(model_game);
+                var model = new Models.Mafia.GameFile();
+                var list_id = new List<string>();
+                model.characters = list_id;
+                model.count_players = 0;
+                model.creator_game = id;
+                model.id_players = list_id;
+                model.isStart = "0";
+                model.live_players = list_id;
+                model.night = 0;
+                model.players_action = 0;
+                model.time = "";
+
+                string json_game = JsonConvert.SerializeObject(model);
+
                 Methods.WriteFile.Start(json_game, $@"MafiaGames\{dialog_id}\{name_game}.txt");
 
-                Bot.API.Message.Send("Игра создана. Чтобы присоединиться напишите Майк, мафия присоединиться.", dialog_id);
+                Bot.API.Message.Send("Игра создана. Чтобы присоединиться напишите: Майк, мафия присоединиться.", dialog_id);
             }
         }
     }
