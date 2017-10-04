@@ -15,7 +15,6 @@ namespace MikeBot.Mafia.Command
                 var info = new InfoDialog(dialog_id);
                 if (info.Play)
                 {
-
                     //Получаем информации об сыграных играх.
 
                     int count_game = info.CoutGames;

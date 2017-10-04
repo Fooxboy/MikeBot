@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Threading;
 using System.Linq;
+using System.IO;
 
 namespace MikeBot.Mafia.Command
 {
@@ -10,115 +11,132 @@ namespace MikeBot.Mafia.Command
     {
         public static void Start(string dialog_id)
         {
-            //Ночь.
 
-            //Получаем информацию об игре
-            var info = new InfoGame(dialog_id);
-
-            //Получаем список персонажей
-            List<string> characters = info.characters;
-
-            //Получаем список игроков
-            List<string> users = info.live_players;
-
-            //Получаем текст об игроках.
-            string players_game = Logic.StringPlayers.Start(users);
-
-            int count_players_action = 0;
-
-            var info_dialog = new InfoDialog(dialog_id);
-
-            int game = info_dialog.CoutGames + 1;
-
-            int night = info.night;
-
-            //Создаём файл, где сказано о всех выборах игроков.
-            using (System.IO.File.Create($@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt"))
+            if(Directory.Exists($@"MafiaGames\{dialog_id}\"))
             {
-
-            }
-            var model_choise = new Models.Mafia.ChoiseFile();
-            model_choise.users_id = null;
-            model_choise.choise_id = null;
-            string json_choise = JsonConvert.SerializeObject(model_choise);
-            Methods.WriteFile.Start(json_choise, $@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt");
-
-            //Начинаем проверять каждого пользователя.
-            for (int i=0; info.live_players.Count <i;i++)
-            {
-                //if((characters[i] == Characters.get[2])||(characters[i] == Characters.get[10])||(characters[i] == Characters.get[11]))
-                //{
-
-                    switch(characters[i].ToLower())
+                var info_dialog = new InfoDialog(dialog_id);
+                if(info_dialog.Play)
+                {
+                    var info = new InfoGame(dialog_id);
+                    if (info.IsStart == "1")
                     {
-                        case "бандит":
-                            Bot.API.Message.Send($"Выберите кого убить. Если ваш выбор совпадёт с большеством, тогда он будет убит.\n{players_game}\nПример:Майк, мафия убить 2.", users[i]);
+                        //Ночь.
 
-                            break;
-                        case "начинающий бандит":
-                            Bot.API.Message.Send($"Выберите кого хотите убить. Шанс убийства - 40%. \n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
+                        //Получаем информацию об игре
+                        //Получаем список персонажей
+                        List<string> characters = info.Characters;
 
-                            break;
-                        case "заказной киллер":
-                        Bot.API.Message.Send($"Выебрите кого хотите убить. Если вы убьёте кого-либо из мафии - Вы лишаетесь своей роли.\n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
-                            break;
+                        //Получаем список игроков
+                        List<string> users = info.LivePlayers;
 
-                        case "доктор":
-                            Bot.API.Message.Send($"Выберите кого хотите вылечить. Если на него сделают атаку - Вы его вылечите.\n{players_game}\nПример: Майк, мафия вылечить 2.", users[i]);
+                        //Получаем текст об игроках.
+                        string players_game = Logic.StringPlayers.Start(users);
 
-                            break;
-                        case "блудница":
-                            Bot.API.Message.Send($"Выберите с кем хотите провести ночь. Если Вы проведёте ночь с мафией - Вы мертвы.\n{players_game}\nПример: Майк, мафия навестить 2.", users[i]);
+                        int game = info_dialog.CoutGames + 1;
 
-                            break;
-                        case "вор":
-                            Bot.API.Message.Send($"Выберите кого хотите ограбить. Есть шанс того, что Вас поймают, в удачном случае Вы получаете деньги.\n{players_game}\nПример: Майк, мафия ограбить 2.", users[i]);
+                        int night = info.Night;
 
-                            break;
-                        case "гадалка":
-                            Bot.API.Message.Send($"Выберите того, чью роль вы хотите узнать. Ваши шансы узнать роль - 50%.\n{players_game}\nПример: Майк, мафия гадать 2.", users[i]);
+                        //Создаём файл, где сказано о всех выборах игроков.
+                        using (System.IO.File.Create($@"MafiaGames\{dialog_id}\{game}_choise_night{night}.json"))
+                        {
 
-                            break; 
-                        case "спасатель":
-                            Bot.API.Message.Send($"Выберите кого хотите спасти. Ваши шансы кого-либо спасти - 20%\n{players_game}\nПример: Майк, мафия спасти 2", users[i]);
+                        }
+                        var model_choise = new Models.Mafia.ChoiseFile();
+                        model_choise.users_id = new List<string>();
+                        model_choise.choise_id = new List<string>();
+                        string json_choise = JsonConvert.SerializeObject(model_choise);
+                        Methods.WriteFile.Start(json_choise, $@"MafiaGames\{dialog_id}\{game}_choise_night-{night}.json");
 
-                            break;
-                        default:
-                            break;
+                        //Начинаем проверять каждого пользователя.
+                        for (int i = 0; info.LivePlayers.Count < i; i++)
+                        {
+                            //if((characters[i] == Characters.get[2])||(characters[i] == Characters.get[10])||(characters[i] == Characters.get[11]))
+                            //{
+
+                            switch (characters[i].ToLower())
+                            {
+                                case "бандит":
+                                    Bot.API.Message.Send($"Выберите кого убить. Если ваш выбор совпадёт с большеством, тогда он будет убит.\n{players_game}\nПример:Майк, мафия убить 2.", users[i]);
+
+                                    break;
+                                case "начинающий бандит":
+                                    Bot.API.Message.Send($"Выберите кого хотите убить. Шанс убийства - 40%. \n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
+
+                                    break;
+                                case "заказной киллер":
+                                    Bot.API.Message.Send($"Выебрите кого хотите убить. Если вы убьёте кого-либо из мафии - Вы лишаетесь своей роли.\n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
+                                    break;
+
+                                case "доктор":
+                                    Bot.API.Message.Send($"Выберите кого хотите вылечить. Если на него сделают атаку - Вы его вылечите.\n{players_game}\nПример: Майк, мафия вылечить 2.", users[i]);
+
+                                    break;
+                                case "блудница":
+                                    Bot.API.Message.Send($"Выберите с кем хотите провести ночь. Если Вы проведёте ночь с мафией - Вы мертвы.\n{players_game}\nПример: Майк, мафия навестить 2.", users[i]);
+
+                                    break;
+                                case "вор":
+                                    Bot.API.Message.Send($"Выберите кого хотите ограбить. Есть шанс того, что Вас поймают, в удачном случае Вы получаете деньги.\n{players_game}\nПример: Майк, мафия ограбить 2.", users[i]);
+
+                                    break;
+                                case "гадалка":
+                                    Bot.API.Message.Send($"Выберите того, чью роль вы хотите узнать. Ваши шансы узнать роль - 50%.\n{players_game}\nПример: Майк, мафия гадать 2.", users[i]);
+
+                                    break;
+                                case "спасатель":
+                                    Bot.API.Message.Send($"Выберите кого хотите спасти. Ваши шансы кого-либо спасти - 20%\n{players_game}\nПример: Майк, мафия спасти 2", users[i]);
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                            //}
+                            count_players_action = i;
+                        }
+
+                        Bot.API.Message.Send("Ночь началась. Ночь длится 60с. Кто же будет убит этой ночью?", dialog_id);
+
+                        var model = new Models.Mafia.GameFile();
+
+                        model.characters = info.Characters;
+
+                        model.count_players = info.count_players;
+                        model.creator_game = info.creator_game;
+                        model.id_players = info.id_players;
+                        model.isStart = info.isStart;
+                        model.live_players = info.live_players;
+                        model.night = info.night + 1;
+                        model.players_action = count_players_action;
+                        model.time = info.time;
+
+                        string json = JsonConvert.SerializeObject(model);
+                        Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");
+
+                        var resp = new ResponseEndNight();
+                        resp.dialog_id = dialog_id;
+                        resp.info_game = info;
+
+                        //Запускаем конец ночи.
+                        TimerCallback timerCallback = new TimerCallback(EndNight);
+
+                        Timer timer = new Timer(timerCallback, resp, 60000, -1);
+                        /** ЕБАНЫЙ КОНЕЦ. УРА БЛЯТЬ. УРА! УРА! УРА!*/
                     }
-                //}
-                count_players_action = i;
+                    else
+                    {
+                        Bot.API.Message.Send("Игра не началась. Чтобы начать напишите: Майк, мафия старт.", dialog_id);
+                    }
+                }
+                else
+                {
+                    Bot.API.Message.Send("Игра не была создана. Чтобы создать игру, напишите: Майк, мафия создать.", dialog_id);
+                }    
+            }else
+            {
+                Bot.API.Message.Send("Не создана папка игры. Чтобы создать игру, напишите: Майк, мафия создать", dialog_id);
             }
-
-            Bot.API.Message.Send("Ночь началась. Ночь длится 60с. Кто же будет убит этой ночью?", dialog_id);
-
-            var model = new Models.Mafia.GameFile();
-
-            model.characters = info.characters;
-
-            model.count_players = info.count_players;
-            model.creator_game = info.creator_game;
-            model.id_players = info.id_players;
-            model.isStart = info.isStart;
-            model.live_players = info.live_players;
-            model.night = info.night + 1;
-            model.players_action = count_players_action;
-            model.time = info.time;
-
-            string json = JsonConvert.SerializeObject(model);
-            Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");
-
-            var resp = new ResponseEndNight();
-            resp.dialog_id = dialog_id;
-            resp.info_game = info;
-
-            //Запускаем конец ночи.
-            TimerCallback timerCallback = new TimerCallback(EndNight);
-
-            Timer timer = new Timer(timerCallback, resp, 60000, -1);
-            /** ЕБАНЫЙ КОНЕЦ. УРА БЛЯТЬ. УРА! УРА! УРА!*/
+           
         }
-
 
         //TODO: Переписать в нормальный вид. Вынести в отдельный класс. Вынести в Logic.
         private static void EndNight(object obj)
@@ -135,7 +153,7 @@ namespace MikeBot.Mafia.Command
             string dialog_id = info.dialog_id;
 
             //Получаем файл с выбором.
-            var info_choise = new InfoChoise(dialog_id, info_game.night.ToString());
+            var info_choise = new InfoChoise(dialog_id, info_game.Night.ToString());
 
             List<string> killed = info_choise.choise_id;//Кого убили
             List<string> killer = info_choise.users_id; //Кто убил
@@ -163,7 +181,7 @@ namespace MikeBot.Mafia.Command
 
 
             //Теперь нам нужно проанализировать всех убитых и убийц. Начнём.
-            for(int i=0; info_game.live_players.Count < i; i++)
+            for(int i=0; info_game.LivePlayers.Count < i; i++)
             {
                 //Проверяем роль
                 string role = Methods.GetCharactersFromId.Start(killer[i], dialog_id);
@@ -341,7 +359,7 @@ namespace MikeBot.Mafia.Command
             {
                 if(kill == "")
                 {
-                    retrn = $"Этой ночью никто не погиб. Живучие пидоры.";
+                    retrn = $"Этой ночью никто не погиб.";
                 }else
                 {
                     var user =  API.Method.Users.Get.Start(kill).obj.response[0];
@@ -376,7 +394,7 @@ namespace MikeBot.Mafia.Command
             if(live_players.Count == 1)
             {
                 //Выводим имя победителя и заканчиваем игру
-                var obj_user = API.Method.Users.Get.Start(info_game.live_players[0]);
+                var obj_user = API.Method.Users.Get.Start(info_game.LivePlayers[0]);
                 string text = $"ПОБЕДИЛ: [{live_players[0]}|{obj_user.obj.response[0].first_name} {obj_user.obj.response[0].last_name}] - был {Methods.GetCharactersFromId.Start(live_players[0],dialog_id)}";
             } else
             {
@@ -402,7 +420,7 @@ namespace MikeBot.Mafia.Command
 
             int game = info_dialog.CoutGames + 1;
 
-            Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");
+            Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.json");
 
 
         }     
