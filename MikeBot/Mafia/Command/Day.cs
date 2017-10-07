@@ -19,9 +19,9 @@ namespace MikeBot.Mafia.Command
             var info_dialog = new InfoDialog(dialog_id);
 
             int game = info_dialog.CoutGames + 1;
-            int night = info_game.night;
+            int night = info_game.Night;
 
-            using (File.Create($@"MafiaGames\{dialog_id}\{game}_choise_day{night}.txt"))
+            using (File.Create($@"MafiaGames\{dialog_id}\{game}_choise_day{night}.json"))
             {
 
             }
@@ -51,9 +51,9 @@ namespace MikeBot.Mafia.Command
             var info_dialog = new InfoDialog(dialog_id);
 
             int game = info_dialog.CoutGames + 1;
-            int night = info_game.night;
+            int night = info_game.Night;
 
-            string json_choise = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}_choise_day{night}.txt");
+            string json_choise = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}_choise_day{night}.json");
             var obj_choise = JsonConvert.DeserializeObject<Models.Mafia.DayChoiseFile>(json_choise);
 
             List<string> kill = obj_choise.users_id;
@@ -98,7 +98,7 @@ namespace MikeBot.Mafia.Command
 
             string json_model = JsonConvert.SerializeObject(model_game);
 
-            Methods.WriteFile.Start(json_model, $@"MafiaGames\{dialog_id}\{game}.txt");
+            Methods.WriteFile.Start(json_model, $@"MafiaGames\{dialog_id}\{game}.json");
             
             if(livePlayers.Count == 1)
             {
