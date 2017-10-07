@@ -31,7 +31,7 @@ namespace MikeBot.API.LongPoll.ProccesingCode
             get.array = response;
             Thread threadSDK = new Thread(new ParameterizedThreadStart(runSDK));
             threadSDK.Name = "Обработка сообщений";
-            Debug.Waring("Поток 3");
+            Debug.Waring("\nПоток 2");
             threadSDK.Start(get);
         }
 

@@ -9,6 +9,7 @@ namespace MikeBot.SDK.Command
     {
         public static void Start(object[] array)
         {
+            Debug.Waring("Код потока 2");
             string message_id = (string)array[0];
             string message_flags = (string)array[1];
             string peer_id = (string)array[2];
