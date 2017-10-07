@@ -44,23 +44,21 @@ namespace MikeBot.Mafia.Command
                         var model_choise = new Models.Mafia.ChoiseFile();
                         model_choise.users_id = new List<string>();
                         model_choise.choise_id = new List<string>();
+                        model_choise.killed = new List<string>();
                         string json_choise = JsonConvert.SerializeObject(model_choise);
                         Methods.WriteFile.Start(json_choise, $@"MafiaGames\{dialog_id}\{game}_choise_night-{night}.json");
 
                         //Начинаем проверять каждого пользователя.
                         for (int i = 0; info.LivePlayers.Count < i; i++)
                         {
-                            //if((characters[i] == Characters.get[2])||(characters[i] == Characters.get[10])||(characters[i] == Characters.get[11]))
-                            //{
-
                             switch (characters[i].ToLower())
                             {
                                 case "бандит":
-                                    Bot.API.Message.Send($"Выберите кого убить. Если ваш выбор совпадёт с большеством, тогда он будет убит.\n{players_game}\nПример:Майк, мафия убить 2.", users[i]);
+                                    Bot.API.Message.Send($"Выберите кого убить. Если Ваш выбор совпадёт с большеством, тогда он будет убит.\n{players_game}\nПример:Майк, мафия убить 2.", users[i]);
 
                                     break;
                                 case "начинающий бандит":
-                                    Bot.API.Message.Send($"Выберите кого хотите убить. Шанс убийства - 40%. \n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
+                                    Bot.API.Message.Send($"Выберите кого хотите убить. Шанс убийства - 50%. \n{players_game}\nПример: Майк, мафия убить 2.", users[i]);
 
                                     break;
                                 case "заказной киллер":
@@ -90,16 +88,16 @@ namespace MikeBot.Mafia.Command
                                 default:
                                     break;
                             }
-                            //}
-                            count_players_action = i;
                         }
 
                         Bot.API.Message.Send("Ночь началась. Ночь длится 60с. Кто же будет убит этой ночью?", dialog_id);
 
+                        info.Night = info.Night + 1;
+
+                        /*УСТАРЕВШИЙ КОД
+                         * 
                         var model = new Models.Mafia.GameFile();
-
                         model.characters = info.Characters;
-
                         model.count_players = info.count_players;
                         model.creator_game = info.creator_game;
                         model.id_players = info.id_players;
@@ -108,19 +106,16 @@ namespace MikeBot.Mafia.Command
                         model.night = info.night + 1;
                         model.players_action = count_players_action;
                         model.time = info.time;
-
                         string json = JsonConvert.SerializeObject(model);
-                        Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");
+                        Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");*/
 
                         var resp = new ResponseEndNight();
                         resp.dialog_id = dialog_id;
-                        resp.info_game = info;
 
                         //Запускаем конец ночи.
                         TimerCallback timerCallback = new TimerCallback(EndNight);
 
                         Timer timer = new Timer(timerCallback, resp, 60000, -1);
-                        /** ЕБАНЫЙ КОНЕЦ. УРА БЛЯТЬ. УРА! УРА! УРА!*/
                     }
                     else
                     {
@@ -145,38 +140,37 @@ namespace MikeBot.Mafia.Command
 
             //Получаем класс.
             var info = (ResponseEndNight)obj;
-
-            //Получаем класс для работы с информацией игры
-            var info_game = info.info_game;
-
             //Получаем dialog_id
             string dialog_id = info.dialog_id;
+
+            //Получаем класс для работы с информацией игры
+            var info_game = new InfoGame(dialog_id);
 
             //Получаем файл с выбором.
             var info_choise = new InfoChoise(dialog_id, info_game.Night.ToString());
 
-            List<string> killed = info_choise.choise_id;//Кого убили
-            List<string> killer = info_choise.users_id; //Кто убил
-            List<string> killeders = info_choise.killed; //Кто уже убит.
+            List<string> killed = info_choise.ChoiseId;//Кого убили
+            List<string> killer = info_choise.UsersId; //Кто убил
+            List<string> killeders = info_choise.Killed; //Кто уже убит.
 
             //Убиты бандитом.
-            List<string> killed_from_bandit = null;
+            List<string> killed_from_bandit = new List<string>();
 
             //Убиты киллером.
-            List<string> killed_from_killer = null;
+            List<string> killed_from_killer = new List<string>();
 
             //С ним переспали ночь.
-            List<string> sleeped_to_night = null;
+            List<string> sleeped_to_night = new List<string>();
 
             //Его обворавали
-            List<string> stealed = null;
+            List<string> stealed = new List<string>();
 
 
             //Вылечены доктором
-            List<string> treated_from_doctor = null;
+            List<string> treated_from_doctor = new List<string>();
 
             //Его спасли
-            List<string> helpered = null;
+            List<string> helpered = new List<string>();
 
 
 
@@ -216,10 +210,6 @@ namespace MikeBot.Mafia.Command
                         stealed.Add(killed[i]);
 
                         break;
-                   /* case "гадалка":
-                        opened_role.Add(killed[i]);
-
-                        break; */
                     case "спасатель":
                         helpered.Add(killed[i]);
                         break;
@@ -230,15 +220,14 @@ namespace MikeBot.Mafia.Command
                 }
             }
 
-            List<string> kill_bandit_and_killer = null;
+            List<string> kill_bandit_and_killer = new List<string>();
 
             string kill = "";
 
             //Анализируем убитых бандитами. Выбераем одного.
-            if(killed_from_bandit != null )
+            if(killed_from_bandit.Count != 0 )
             {
                 //Ищем совпадение между выбром киллера и бандита.
-
                 string[] killedBandit = killed_from_bandit.ToArray();
                 string[] killedKiller = killed_from_killer.ToArray();
 
@@ -249,9 +238,9 @@ namespace MikeBot.Mafia.Command
                     kill_bandit_and_killer.Add(s);
                 }
 
-                List<string> killed_to_Bandit = null;
+                List<string> killed_to_Bandit = new List<string>();
 
-                if (kill_bandit_and_killer == null)
+                if (kill_bandit_and_killer.Count == 0)
                 {
                     var result = killedBandit.Intersect(killedBandit);
 
@@ -309,7 +298,7 @@ namespace MikeBot.Mafia.Command
                 //Любовнец нет или они не проголосовали.
             }
 
-            if(treated_from_doctor != null)
+            if(treated_from_doctor.Count != 0)
             {
                 if (treated_from_doctor.Count > 1)
                 {
@@ -330,7 +319,7 @@ namespace MikeBot.Mafia.Command
                 }
             }
 
-            if (helpered != null)
+            if (helpered.Count != 0)
             {
                 if (helpered.Count > 1)
                 {
@@ -371,11 +360,7 @@ namespace MikeBot.Mafia.Command
                 killeders.Add(kill);
                 retrn = $"Этой ночью погибли:/n {Logic.GetKillText.Start(killeders, dialog_id)}";
             }
-            
-            
-            
-
-            List<string> live_players = info_game.live_players;
+            List<string> live_players = info_game.LivePlayers;
 
 
             //Получаем список живых игроков.
@@ -401,8 +386,14 @@ namespace MikeBot.Mafia.Command
                 string live_players_string = $"Оставшиеся живые игроки:\n {Logic.GetLiveText.Start(live_players)}";
                 Bot.API.Message.Send($"{retrn}\n{live_players_string}", dialog_id);
             }
-        
+
             //Теперь нужно перезаписать файл игры.
+
+            info_game.LivePlayers = live_players;
+            info_game.Night = info_game.Night + 1;
+
+            /*УСТАРЕВШИЙ КОД
+             * 
             var model_game = new Models.Mafia.GameFile();
             model_game.characters = info_game.characters;
             model_game.count_players = info_game.count_players;
@@ -413,22 +404,15 @@ namespace MikeBot.Mafia.Command
             model_game.night = info_game.night + 1;
             model_game.players_action = info_game.players_action;
             model_game.time = info_game.time;
-
             string json = JsonConvert.SerializeObject(model_game);
-
             var info_dialog = new InfoDialog(dialog_id);
-
             int game = info_dialog.CoutGames + 1;
-
-            Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.json");
-
-
+            Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.json");*/
         }     
     }
 
     public class ResponseEndNight
     {
-        public InfoGame info_game { get; set; }
         public string dialog_id { get; set; }
     }
 }
