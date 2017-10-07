@@ -64,7 +64,7 @@ namespace MikeBot.Mafia.Command
 
             string id = kill_array.GroupBy(x => x).OrderByDescending(x => x.Count()).First().Key;
 
-            Bot.API.Message.Send("Вы отправляетесь в тюрьму... Где вы умираете. :(", id);
+            Bot.API.Message.Send("Вы отправляетесь в тюрьму, где Вы умираете. :(", id);
 
             List<string> livePlayers = info_game.LivePlayers;
 

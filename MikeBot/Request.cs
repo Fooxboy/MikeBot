@@ -16,15 +16,12 @@ namespace MikeBot
         /// <returns></returns>
         public static string Api(string method, string param)
         {
-
             WebClient client = new WebClient();
-
-            string token = "bfa9879d97d107fad8968a8ec0e521ee1981be66a3f3c82c13976a9a6ebedf7fa18bc7f1d16f40a346b56";
+            const string token = "bfa9879d97d107fad8968a8ec0e521ee1981be66a3f3c82c13976a9a6ebedf7fa18bc7f1d16f40a346b56";
             Debug.Waring($"\nЗапрос к методу {method}...");
             var url = $"https://api.vk.com/method/{method}?{param}&access_token={token}&v=5.68";
             client.Encoding = Encoding.UTF8;
             string json = client.DownloadString(url);
-            //Console.WriteLine(json);
             return json;
         }
 
