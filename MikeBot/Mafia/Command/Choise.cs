@@ -10,17 +10,14 @@ namespace MikeBot.Mafia.Command
         public static void Start(string from, string id, string dialog_id)
         {
             //Файл голосования.
-           
-
-
             var model_choise = new Models.Mafia.DayChoiseFile();
 
             var info_dialog = new InfoDialog(dialog_id);
             var info_game = new InfoGame(dialog_id);
             int game = info_dialog.CoutGames + 1;
-            int night = info_game.night;
+            int night = info_game.Night;
 
-            string json = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}_choise_day{ night}.txt");
+            string json = Methods.ReadFile.Start($@"MafiaGames\{dialog_id}\{game}_choise_day{night}.json");
             var choise = JsonConvert.DeserializeObject<Models.Mafia.DayChoiseFile>(json);
 
             List<string> uid = choise.users_id;
@@ -32,7 +29,7 @@ namespace MikeBot.Mafia.Command
 
             string new_json = JsonConvert.SerializeObject(model_choise);
 
-            Methods.WriteFile.Start(new_json, $@"MafiaGames\{dialog_id}\{game}_choise_day{ night}.txt");
+            Methods.WriteFile.Start(new_json, $@"MafiaGames\{dialog_id}\{game}_choise_day{night}.json");
         }
     }
 }
