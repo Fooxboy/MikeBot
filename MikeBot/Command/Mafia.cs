@@ -25,7 +25,7 @@ namespace MikeBot.Command
             try
             {
               info_game = new MikeBot.Mafia.InfoGame(dialog_id);
-              players = info_game.live_players;
+              players = info_game.LivePlayers;
             }catch
             {
                 //TODO: сделать проверку на игру.

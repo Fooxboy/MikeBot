@@ -8,7 +8,7 @@ namespace Database.API
     /// </summary>
     public static class Add
     {
-        error
+        
         /// <summary>
         /// Добавить новую строку.
         /// </summary>
