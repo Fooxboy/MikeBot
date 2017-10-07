@@ -26,7 +26,7 @@ namespace MikeBot.Mafia.Command
 
             }
 
-            string list_players = Logic.StringPlayers.Start(info_game.live_players);
+            string list_players = Logic.StringPlayers.Start(info_game.LivePlayers);
 
             Bot.API.Message.Send($"Список игроков:\n{list_players}\nПроголосовать можно, написав в беседу или мне в ЛС.\nПример: Майк, проголосовать 2", dialog_id);
 
@@ -66,7 +66,7 @@ namespace MikeBot.Mafia.Command
 
             Bot.API.Message.Send("Вы отправляетесь в тюрьму... Где вы умираете. :(", id);
 
-            List<string> livePlayers = info_game.live_players;
+            List<string> livePlayers = info_game.LivePlayers;
 
             for (int i = 0; livePlayers.Count < i; i++)
             {
@@ -86,15 +86,15 @@ namespace MikeBot.Mafia.Command
             Bot.API.Message.Send(text, dialog_id);
 
             var model_game = new Models.Mafia.GameFile();
-            model_game.characters = info_game.characters;
-            model_game.count_players = info_game.count_players;
-            model_game.creator_game = info_game.creator_game;
-            model_game.id_players = info_game.id_players;
-            model_game.isStart = info_game.isStart;
+            model_game.characters = info_game.Characters;
+            model_game.count_players = info_game.CountPlayers;
+            model_game.creator_game = info_game.CreatorGame;
+            model_game.id_players = info_game.IdPlayers;
+            model_game.isStart = info_game.IsStart;
             model_game.live_players = livePlayers;
-            model_game.night = info_game.night;
-            model_game.players_action = info_game.players_action;
-            model_game.time = info_game.time;
+            model_game.night = info_game.Night;
+            model_game.players_action = info_game.PlayersAction;
+            model_game.time = info_game.Time;
 
             string json_model = JsonConvert.SerializeObject(model_game);
 
