@@ -85,6 +85,8 @@ namespace MikeBot.Mafia.Command
 
             Bot.API.Message.Send(text, dialog_id);
 
+
+            //TODO: Заменить устаревший код.
             var model_game = new Models.Mafia.GameFile();
             model_game.characters = info_game.Characters;
             model_game.count_players = info_game.CountPlayers;

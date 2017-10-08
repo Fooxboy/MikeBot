@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Database.API;
 
 namespace MikeBot.Mafia.Command
 {
@@ -9,6 +10,17 @@ namespace MikeBot.Mafia.Command
     {
         public static void Start(string id, string dialog_id)
         {
+            var profile = new MafiaProfile(id);
+
+            if(profile.IsUser)
+            {
+                //Ничо не делаем.
+            } else
+            {
+                Database.API.Methods method = new Database.API.Methods("mafia_profile");
+                method.Add(@"`id`, `play_id`, `count_game`, `count_win`", $@"'{id}', '0', '0', '0'");
+            }
+
             //Проверка папки MafiaGames
             if(Directory.Exists("MafiaGames"))
             {

@@ -93,22 +93,6 @@ namespace MikeBot.Mafia.Command
                         Bot.API.Message.Send("Ночь началась. Ночь длится 60с. Кто же будет убит этой ночью?", dialog_id);
 
                         info.Night = info.Night + 1;
-
-                        /*УСТАРЕВШИЙ КОД
-                         * 
-                        var model = new Models.Mafia.GameFile();
-                        model.characters = info.Characters;
-                        model.count_players = info.count_players;
-                        model.creator_game = info.creator_game;
-                        model.id_players = info.id_players;
-                        model.isStart = info.isStart;
-                        model.live_players = info.live_players;
-                        model.night = info.night + 1;
-                        model.players_action = count_players_action;
-                        model.time = info.time;
-                        string json = JsonConvert.SerializeObject(model);
-                        Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.txt");*/
-
                         var resp = new ResponseEndNight();
                         resp.dialog_id = dialog_id;
 
@@ -395,22 +379,6 @@ namespace MikeBot.Mafia.Command
             info_game.LivePlayers = live_players;
             info_game.Night = info_game.Night + 1;
 
-            /*УСТАРЕВШИЙ КОД
-             * 
-            var model_game = new Models.Mafia.GameFile();
-            model_game.characters = info_game.characters;
-            model_game.count_players = info_game.count_players;
-            model_game.creator_game = info_game.creator_game;
-            model_game.id_players = info_game.id_players;
-            model_game.isStart = info_game.isStart;
-            model_game.live_players = live_players;
-            model_game.night = info_game.night + 1;
-            model_game.players_action = info_game.players_action;
-            model_game.time = info_game.time;
-            string json = JsonConvert.SerializeObject(model_game);
-            var info_dialog = new InfoDialog(dialog_id);
-            int game = info_dialog.CoutGames + 1;
-            Methods.WriteFile.Start(json, $@"MafiaGames\{dialog_id}\{game}.json");*/
         }     
     }
 
