@@ -386,6 +386,8 @@ namespace MikeBot.Mafia.Command
             {
                 string live_players_string = $"Оставшиеся живые игроки:\n {Logic.GetLiveText.Start(live_players)}";
                 Bot.API.Message.Send($"{retrn}\n{live_players_string}", dialog_id);
+
+                Day.Start(dialog_id);
             }
 
             //Теперь нужно перезаписать файл игры.

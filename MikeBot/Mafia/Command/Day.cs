@@ -102,10 +102,10 @@ namespace MikeBot.Mafia.Command
             
             if(livePlayers.Count == 1)
             {
-                //Конец игры.
+                End.Start(dialog_id, livePlayers[0]);
             } else
             {
-                Command.Night.Start(dialog_id);
+                Night.Start(dialog_id);
             }
 
         }
