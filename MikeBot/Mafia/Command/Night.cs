@@ -379,8 +379,9 @@ namespace MikeBot.Mafia.Command
             if(live_players.Count == 1)
             {
                 //Выводим имя победителя и заканчиваем игру
-                var obj_user = API.Method.Users.Get.Start(info_game.LivePlayers[0]);
+                var obj_user = API.Method.Users.Get.Start(live_players[0]);
                 string text = $"ПОБЕДИЛ: [{live_players[0]}|{obj_user.obj.response[0].first_name} {obj_user.obj.response[0].last_name}] - был {Methods.GetCharactersFromId.Start(live_players[0],dialog_id)}";
+                End.Start(dialog_id, live_players[0]);
             } else
             {
                 string live_players_string = $"Оставшиеся живые игроки:\n {Logic.GetLiveText.Start(live_players)}";
