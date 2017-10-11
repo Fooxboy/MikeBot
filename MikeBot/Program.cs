@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System;
 
 namespace MikeBot
 {
@@ -8,9 +9,9 @@ namespace MikeBot
         {
             Debug.Waring("Старт бота...");
 
-            Debug.Waring("Запуск потока 1");
             Thread ThreadLongPoll = new Thread(new ThreadStart(StartLongPoll));
             ThreadLongPoll.Name = "LongPoll";
+            Console.Title = "MikeBot - Работает";
             ThreadLongPoll.Start();
         }
 
@@ -18,22 +19,16 @@ namespace MikeBot
         {
             while (true)
             {
-                Debug.Waring("Код потока 1");
                 var response_longpoll = API.LongPoll.Starter.Start();
-
                 if (response_longpoll.obj == null)
                 {
-                    Debug.Error("Ошибка. obj == null");
                     Global.key = "";
                     Global.server = "";
-                    //Debug.Error(response_longpoll.error.error.error_msg);
                 } else
                 {
                     API.LongPoll.Proccesing.Start(response_longpoll.obj);
                 }
-               
-            }
-           
+            }  
         }
     }
 }

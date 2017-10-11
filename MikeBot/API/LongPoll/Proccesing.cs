@@ -27,7 +27,6 @@ namespace MikeBot.API.LongPoll
         private static void Code(long code, int i, List<List<object>> ObjectLongPoll)
         {
             object[] retrn = new object[1];
-            Debug.Waring($"\nКОД: {code}");
             switch (code)
             {
                 case 1:
@@ -41,7 +40,6 @@ namespace MikeBot.API.LongPoll
                     break;
                 case 4:
                     //Добавлние нового сообщения
-                    Console.WriteLine("Новое сообщение");
                     ProccesingCode.Code4.Start(ObjectLongPoll, i);
                     break;
                 case 6:

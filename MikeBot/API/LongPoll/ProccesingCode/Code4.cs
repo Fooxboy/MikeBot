@@ -26,12 +26,38 @@ namespace MikeBot.API.LongPoll.ProccesingCode
             response[4] = text;
             response[5] = attach;
 
+            string user_id_from;
+
+            if (attach.from == null)
+            {
+                //Если сообщение в лс.
+                user_id_from = peer_id;
+            }
+            else
+            {
+                //Если сообщение в беседе.
+                user_id_from = attach.from;
+            }
+
+            Database.API.UserInfo user_profile = new Database.API.UserInfo(user_id_from);
+
+            string name;
+
+            if (user_profile.IsUser)
+            {
+                name = user_profile.Name;
+            } else
+            {
+                name = "Неизвестный";
+            }
+
+            Console.WriteLine($"{name} ({user_id_from}) > {text} [{time}]");
+
             //Отправляем сдк обработки команд
             getParametr get = new getParametr();
             get.array = response;
             Thread threadSDK = new Thread(new ParameterizedThreadStart(runSDK));
             threadSDK.Name = "Обработка сообщений";
-            Debug.Waring("\nПоток 2");
             threadSDK.Start(get);
         }
 

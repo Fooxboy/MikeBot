@@ -15,15 +15,25 @@ namespace Database.API
             table = Table;
         }
 
-        public Methods(string Table) 
+        public Methods(string Table)
         {
-            connection_string = "server=localhost;user=mike;database=mikebot;port=3306;SslMode=Preferred;password=0000";
+            string server = "localhost";
+            string database = "mikebot";
+            string sslmode = "none";
+            string user = "mike";
+            string password = "0000";
+            connection_string = $"server={server};Ssl-mode={sslmode};user={user};database={database};password={password}";
             table = Table;
         }
 
         public Methods()
         {
-            connection_string = "server=localhost;user=mike;database=mikebot;SslMode=Preferred;port=3306;password=0000";
+            string server = "localhost";
+            string database = "mikebot";
+            string sslmode = "none";
+            string user = "mike";
+            string password = "0000";
+            connection_string = $"server={server};Ssl-mode={sslmode};user={user};database={database};password={password}";
             table = "users";
         }
 
