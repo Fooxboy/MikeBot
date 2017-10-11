@@ -10,24 +10,34 @@ namespace MikeBot.Mafia.Command
         {
             //Убить игрока.
 
-            //Узнаём роль игрока.
-            string character = Methods.GetCharactersFromId.Start(id, dialog_id);
+            if (dialog_id == "0")
+            {
+                Bot.API.Message.Send("Вы не находитесь  в игре. Присоеденитесь! ", id);
+            }
+            else
+            {
+                //Узнаём роль игрока.
+                string character = Methods.GetCharactersFromId.Start(id, dialog_id);
 
-            if (character.ToLower() == "бандит")
-            {
-                //Логика бандита.
-                Logic.Characters.Bandit.Kill(killed,id, dialog_id);
+                if (character.ToLower() == "бандит")
+                {
+                    //Логика бандита.
+                    Logic.Characters.Bandit.Kill(killed, id, dialog_id);
 
-            } else if(character.ToLower() == "начинающий бандит")
-            {
-                //Логика начинающего бандита.
-                Logic.Characters.New_Bandit.Kill(killed, id, dialog_id);
-            } else if (character.ToLower() == "заказной киллер")
-            {
-                //Логика заказного киллера.
-            } else
-            {
-                Bot.API.Message.Send("Вам не доступна эта команда. Узнайте подробнее о вашей роли: Майк, мафия помощь <роль>.", id);
+                }
+                else if (character.ToLower() == "начинающий бандит")
+                {
+                    //Логика начинающего бандита.
+                    Logic.Characters.New_Bandit.Kill(killed, id, dialog_id);
+                }
+                else if (character.ToLower() == "заказной киллер")
+                {
+                    //Логика заказного киллера.
+                }
+                else
+                {
+                    Bot.API.Message.Send("Вам не доступна эта команда. Узнайте подробнее о вашей роли: Майк, мафия помощь <роль>.", id);
+                }
             }
         }
     }

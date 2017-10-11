@@ -8,14 +8,22 @@ namespace MikeBot.Mafia.Command
     {
         public static void Start(string from, string id, string dialog_id)
         {
-            string character = Methods.GetCharactersFromId.Start(id, dialog_id);
+            if (dialog_id == "0")
+            {
+                Bot.API.Message.Send("Вы не находитесь в игре! Присоединитесь!", id);
+            }
+            else
+            {
+                string character = Methods.GetCharactersFromId.Start(id, dialog_id);
 
-            if(character.ToLower() == "блудница")
-            {
-                Logic.Characters.Whore.Visit(from, id, dialog_id);
-            } else
-            {
-                Bot.API.Message.Send("Извините, Вам не доступна эта команда.Узнайте подробнее о вашей роли: Майк, мафия помощь<роль>.", id);
+                if (character.ToLower() == "блудница")
+                {
+                    Logic.Characters.Whore.Visit(from, id, dialog_id);
+                }
+                else
+                {
+                    Bot.API.Message.Send("Извините, Вам не доступна эта команда.Узнайте подробнее о вашей роли: Майк, мафия помощь<роль>.", id);
+                }
             }
         }
     }

@@ -16,9 +16,9 @@ namespace Database.API
         /// <param name="values"></param>
         public static void String(string fields, string values)
         {
-            var conn = new MySqlConnection("server=localhost;SslMode=none;user=root;database=users;port=3306;password=0000");
+            var conn = new MySqlConnection("server=localhost;user=mike;database=mikebot;port=3306;password=0000;SslMode=none");
             conn.Open();
-            string new_sql = $@"INSERT INTO users.test ({fields}) VALUES ({values});";
+            string new_sql = $@"INSERT INTO users ({fields}) VALUES ({values});";
             Console.WriteLine(new_sql);
             MySqlCommand command = new MySqlCommand(new_sql, conn);
             command.ExecuteScalar();

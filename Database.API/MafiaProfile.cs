@@ -6,7 +6,7 @@ namespace Database.API
     {
         string id = "";
 
-        Methods method = new Methods("mafia_profile");
+        Methods method = new Methods("mafia");
 
         public MafiaProfile(string user_id) 
         {

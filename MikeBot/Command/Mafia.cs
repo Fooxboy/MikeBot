@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Database.API;
 
 namespace MikeBot.Command
 {
@@ -21,7 +22,8 @@ namespace MikeBot.Command
             }
 
             MikeBot.Mafia.InfoGame info_game = null;
-            List<string> players = null;
+            List<string> players = new List<string>();
+
             try
             {
               info_game = new MikeBot.Mafia.InfoGame(dialog_id);
@@ -29,6 +31,14 @@ namespace MikeBot.Command
             }catch
             {
                 //TODO: сделать проверку на игру.
+            }
+
+            var user_profile = new MafiaProfile(id);
+
+            if(!user_profile.IsUser)
+            {
+                Methods method = new Methods("mafia");
+                method.Add(@"`id`, `play_id`, `count_game`, `count_win`", $@"'{id}', '0', '0', '0'");
             }
 
             switch(command.ToLower())
@@ -49,22 +59,22 @@ namespace MikeBot.Command
                     MikeBot.Mafia.Command.Choise.Start(players[choise],id, dialog_id);
                     break;
                 case "убить":
-                    MikeBot.Mafia.Command.Kill.Start(id, dialog_id, players[choise]);
+                    MikeBot.Mafia.Command.Kill.Start(id, user_profile.PlayId, players[choise]);
                     break;
                 case "узнать":
-                    MikeBot.Mafia.Command.Open_role.Start(players[choise], id, dialog_id);
+                    MikeBot.Mafia.Command.Open_role.Start(players[choise], id, user_profile.PlayId);
                     break;
                 case "старт":
                     MikeBot.Mafia.Command.Start.Run(id, dialog_id);
                     break;
                 case "ограбить":
-                    MikeBot.Mafia.Command.Steal.Start(players[choise], id, dialog_id);
+                    MikeBot.Mafia.Command.Steal.Start(players[choise], id, user_profile.PlayId);
                     break;
                 case "вылечить":
-                    MikeBot.Mafia.Command.Treat.Start(players[choise], id, dialog_id);
+                    MikeBot.Mafia.Command.Treat.Start(players[choise], id, user_profile.PlayId);
                     break;
                 case "посетить":
-                    MikeBot.Mafia.Command.Visit.Start(players[choise], id, dialog_id);
+                    MikeBot.Mafia.Command.Visit.Start(players[choise], id, user_profile.PlayId);
                     break;
                 case "ночь":
                     MikeBot.Mafia.Command.Night.Start(dialog_id);
