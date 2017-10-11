@@ -13,16 +13,16 @@ namespace MikeBot.Mafia.Logic.Characters
             string character = Methods.GetCharactersFromId.Start(from, dialog_id);
 
             var info_game = new InfoGame(dialog_id);
-            var info_choise = new InfoChoise(dialog_id, info_game.night.ToString());
+            var info_choise = new InfoChoise(dialog_id, info_game.Night.ToString());
             var info_dialog = new InfoDialog(dialog_id);
             var model_choise = new ChoiseFile();
 
-            List<string> users_id = info_choise.users_id;
-            List<string> choise_id = info_choise.choise_id;
+            List<string> users_id = info_choise.UsersId;
+            List<string> choise_id = info_choise.ChoiseId;
 
             if ((character.ToLower() == "бандит")||(character.ToLower() == "киллер"))
             {
-                info_choise.killed.Add(id);
+                info_choise.Killed.Add(id);
 
                 string text = "Увы, Вам не повезло. :( Вы сходили на чаёк неудачно. Вы мертвы.";
                 Bot.API.Message.Send(text, id);
@@ -36,11 +36,11 @@ namespace MikeBot.Mafia.Logic.Characters
             choise_id.Add(id);
             model_choise.choise_id = choise_id;
             model_choise.users_id = users_id;
-            model_choise.killed = info_choise.killed;
+            model_choise.killed = info_choise.Killed;
             string json_model_choise = JsonConvert.SerializeObject(model_choise);
             int game = info_dialog.CoutGames + 1;
-            int night = info_game.night;
-            Methods.WriteFile.Start(json_model_choise, $@"MafiaGames\{dialog_id}\{game}_choise_night{night}.txt");
+            int night = info_game.Night;
+            Methods.WriteFile.Start(json_model_choise, $@"MafiaGames\{dialog_id}\{game}_choise_night{night}.json");
         
         }
     }

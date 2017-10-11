@@ -16,11 +16,22 @@ namespace MikeBot
 
         private static void StartLongPoll()
         {
-            while(true)
+            while (true)
             {
                 Debug.Waring("Код потока 1");
                 var response_longpoll = API.LongPoll.Starter.Start();
-                API.LongPoll.Proccesing.Start(response_longpoll.obj);
+
+                if (response_longpoll.obj == null)
+                {
+                    Debug.Error("Ошибка. obj == null");
+                    Global.key = "";
+                    Global.server = "";
+                    //Debug.Error(response_longpoll.error.error.error_msg);
+                } else
+                {
+                    API.LongPoll.Proccesing.Start(response_longpoll.obj);
+                }
+               
             }
            
         }

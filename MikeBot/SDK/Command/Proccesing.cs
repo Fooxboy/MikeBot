@@ -43,9 +43,12 @@ namespace MikeBot.SDK.Command
                 case "мафия":
                     MikeBot.Command.Mafia.Start(arguments_array, response.peer_id, response.id);
                     break;
-                default:
+                case "оботе":
+                    MikeBot.Command.About.Start(response.peer_id);
+                    break;
+                default:          
                     //Нет команды
-                    MikeBot.Bot.API.Message.Send("Неизвестная команда.", response.peer_id);
+                    Bot.API.Message.Send("Неизвестная команда.", response.peer_id);
                     break;
             }
         }

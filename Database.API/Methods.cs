@@ -17,14 +17,14 @@ namespace Database.API
 
         public Methods(string Table) 
         {
-            connection_string = "server=localhost;SslMode=none;user=root;database=users;port=3306;password=0000";
+            connection_string = "server=localhost;SslMode=none;user=admin;database=users;port=3306;password=1111";
             table = Table;
         }
 
         public Methods()
         {
-            connection_string = "server=localhost;SslMode=none;user=root;database=users;port=3306;password=0000";
-            table = "users.test";
+            connection_string = "server=localhost;SslMode=none;user=admin;database=users;port=3306;password=1111";
+            table = "test";
         }
 
         MySqlConnection connect = new MySqlConnection(connection_string);

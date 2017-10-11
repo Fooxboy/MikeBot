@@ -23,6 +23,7 @@ namespace MikeBot.API.LongPoll
             if ((Global.key == "") && (Global.server == ""))
             {
                 var responseMethod = Method.Messages.GetLongPollServer.Start();
+
                 if (responseMethod.error_code == 0)
                 {
                     string key = responseMethod.obj.response.key;
@@ -34,9 +35,7 @@ namespace MikeBot.API.LongPoll
                     Global.ts = ts; 
                 } else
                 {
-                    //Обработка ошибок.
                     Console.WriteLine(responseMethod.error.error.error_msg);
-                    API.Error.Proccesing.Start(responseMethod.error.error.error_code);
                     resp.error_code = 3;
                     resp.error = responseMethod.error;
                 }

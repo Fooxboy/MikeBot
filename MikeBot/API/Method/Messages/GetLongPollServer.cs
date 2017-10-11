@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Models;
+﻿using Models;
 using Newtonsoft.Json;
 
 namespace MikeBot.API.Method.Messages
@@ -26,7 +23,7 @@ namespace MikeBot.API.Method.Messages
                 resp.obj = null;
                 resp.error_code = 1;
                 resp.error = error_obj;
-                API.Error.Proccesing.Start(error_obj.error.error_code);
+                Error.Proccesing.Start(error_obj.error.error_code);
                 return resp;
             }
         }
