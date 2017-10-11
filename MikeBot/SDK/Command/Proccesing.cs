@@ -37,6 +37,9 @@ namespace MikeBot.SDK.Command
                 case "test":
                     MikeBot.Command.Test.Start(arguments_array);
                     break;
+                case "название":
+                    
+                    break;
                 case "переведи":
                     MikeBot.Command.Translate.Start(arguments_array);
                     break;
