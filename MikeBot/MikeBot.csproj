@@ -10,16 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicLanguageRuntime" Version="1.1.2" />
-    <PackageReference Include="IronPython" Version="2.7.7" />
-    <PackageReference Include="MySql.Data" Version="8.0.8-dmr" />
+    <PackageReference Include="MySql.Data" Version="8.0.9-dmr" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="VkNet" Version="1.29.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Database.API\Database.API.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\YandexAPI\YandexAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Game\" />
   </ItemGroup>
 
 </Project>
