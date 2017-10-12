@@ -44,6 +44,29 @@ namespace  Database.API
             }
         }
 
+        public string Privileges
+        {
+            get
+            {
+                return method.GetFromId("privileges", id);
+            }
+            set
+            {
+                method.EditField(id, "privilegies", Privileges);
+            }
+        }
+
+        public string PrivegesTime
+        {
+            get
+            {
+                return method.GetFromId("priveleges_time", id);
+            } set
+            {
+                method.EditField(id, "priveleges_time", PrivegesTime);
+            }
+        }
+
         public bool IsAdmin 
         {
             get 
