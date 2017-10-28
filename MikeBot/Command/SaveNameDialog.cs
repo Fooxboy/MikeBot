@@ -41,7 +41,7 @@ namespace MikeBot.Command
 
                 if(!dialog.IsDialog)
                 {
-                    Methods method = new Methods("dialog");
+                    Methods_OLD method = new Methods_OLD("dialog");
                     string fields = @"`id`, `name`, `admin`, `isYou`";
                     string values = $@"'{dialog_id}', '{name_dialog}', '{id}', '1'";
                     method.Add(fields, values);

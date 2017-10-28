@@ -17,7 +17,7 @@ namespace MikeBot.Mafia.Command
                 //Ничо не делаем.
             } else
             {
-                Database.API.Methods method = new Database.API.Methods("mafia");
+                Database.API.Methods_OLD method = new Database.API.Methods_OLD("mafia");
                 method.Add(@"`id`, `play_id`, `count_game`, `count_win`", $@"'{id}', '0', '0', '0'");
             }
 

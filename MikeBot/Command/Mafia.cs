@@ -37,7 +37,7 @@ namespace MikeBot.Command
 
             if(!user_profile.IsUser)
             {
-                Methods method = new Methods("mafia");
+                Methods_OLD method = new Methods_OLD("mafia");
                 method.Add(@"`id`, `play_id`, `count_game`, `count_win`", $@"'{id}', '0', '0', '0'");
             }
 

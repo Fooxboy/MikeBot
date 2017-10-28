@@ -55,7 +55,7 @@ namespace MikeBot.Mafia.Command
 
                                 if (!database.IsUser)
                                 {
-                                    var method = new Database.API.Methods("mafia");
+                                    var method = new Database.API.Methods_OLD("mafia");
                                     string fields = @"`id`, `play_id`, `count_game`, `count_win`";
                                     string values2 = $@"'{id}', '0', '0', '0'";
                                     method.Add(fields, values2);

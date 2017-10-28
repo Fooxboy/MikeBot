@@ -1,60 +1,41 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using MySql.Data.MySqlClient;
 
 namespace Database.API
 {
-    public class Methods 
+    public class Methods
     {
-        static string  connection_string = "";
+        private string table = "";
+        private MySqlConnection connect = null;
 
-        static string table = "";
-
-        public Methods(string connection, string Table) 
-        {
-            connection_string = connection;
-            table = Table;
-        }
-
-        public Methods(string Table)
+        public Methods(Database Database, Table Table)
         {
             string server = "localhost";
-            string database = "mikebot";
-            string sslmode = "none";
-            string user = "mike";
+            string database = Database.value;
+            string sslmode = "None";
+            string user = "root";
             string password = "0000";
-            connection_string = $"server={server};Ssl-mode={sslmode};user={user};database={database};password={password}";
-            table = Table;
+            table = Table.value;
+            string connectionString = $"server={server};Ssl-mode={sslmode};user={user};database={database};password={password}";
+            connect = new MySqlConnection(connectionString);
         }
 
-        public Methods()
-        {
-            string server = "localhost";
-            string database = "mikebot";
-            string sslmode = "none";
-            string user = "mike";
-            string password = "0000";
-            connection_string = $"server={server};Ssl-mode={sslmode};user={user};database={database};password={password}";
-            table = "users";
-        }
-
-        MySqlConnection connect = new MySqlConnection(connection_string);
-
-        public string GetFromId(string field, string id) 
+        public string GetFromId(string id, string field)
         {
             connect.Open();
-
             string sql = $"SELECT {field} FROM {table} WHERE id={id}";
             MySqlCommand command = new MySqlCommand(sql, connect);
-
             string response = command.ExecuteScalar().ToString();
             connect.Close();
             return response;
         }
 
-        public void EditField(string id, string field, string value) 
+        public void EditField(string id, string field, string value)
         {
             connect.Open();
-            string sql  = $"UPDATE {table}  SET `{field}`='{value}' WHERE `id`='{id}';";
+            string sql = $"UPDATE {table}  SET `{field}`='{value}' WHERE `id`='{id}';";
             MySqlCommand command = new MySqlCommand(sql, connect);
             command.ExecuteScalar();
             connect.Close();
@@ -63,31 +44,37 @@ namespace Database.API
         public bool CheckUser(string id)
         {
             connect.Open();
-
-            string sql = $"SELECT isYou FROM {table} WHERE id={id}";
+            string sql = $"SELECT Is FROM {table} WHERE id={id}";
             MySqlCommand command = new MySqlCommand(sql, connect);
             MySqlDataReader reader = command.ExecuteReader();
-
             bool response = false;
-
-            if(reader.Read()) 
+            if (reader.Read())
             {
-                response  = true;
+                response = true;
             }
-
             reader.Close();
             connect.Close();
             return response;
         }
 
-        public void Add(string fields, string values) 
+        public void Add(string fields, string values)
         {
             connect.Open();
-
             string sql = $@"INSERT INTO {table} ({fields}) VALUES ({values});";
             MySqlCommand command = new MySqlCommand(sql, connect);
             command.ExecuteScalar();
             connect.Close();
         }
+
+    }
+
+    public class Database
+    {
+        public string value { get; set; }
+    }
+
+    public class Table
+    {
+        public string value { get; set; }
     }
 }
