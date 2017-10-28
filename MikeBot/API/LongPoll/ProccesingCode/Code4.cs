@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Database.API;
 using System.Threading;
 
 namespace MikeBot.API.LongPoll.ProccesingCode
@@ -39,7 +40,10 @@ namespace MikeBot.API.LongPoll.ProccesingCode
                 user_id_from = attach.from;
             }
 
-            Database.API.UserInfo user_profile = new Database.API.UserInfo(user_id_from);
+            var user_profile = new User()
+            {
+                Id = user_id_from
+            };
 
             string name;
 

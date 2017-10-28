@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Database.API;
 
 namespace MikeBot.Bot.API
 {
@@ -17,7 +18,10 @@ namespace MikeBot.Bot.API
         /// <returns></returns>
         public static string Name(string id, string new_name="")
         {
-            var usr = new Database.API.UserInfo(id);
+            var usr = new Database.API.User()
+            {
+                Id = id
+            };
 
             if(new_name == "")
             {
@@ -38,22 +42,34 @@ namespace MikeBot.Bot.API
         /// <returns></returns>
         public static string Ban(string id, string time="")
         {
-            var usr = new Database.API.UserInfo(id);
+            var usr = new Database.API.User()
+            {
+                Id = id
+            };
+
             if(time == "")
             {
-                string time_ban = usr.Ban;
+                var ban = usr.Ban;
 
-                if(time_ban == "")
+                if(ban)
                 {
                     return "Пользователь не забанен.";
                 } else
                 {
-                    return $"Пользователь в бане ещё на {time_ban} минут.";
+                    var usr1 = new Database.API.Ban()
+                    {
+                        Id = id
+                    };
+                    return $"Пользователь в бане ещё на {usr1.Time} минут.";
                 }
             } else
             {
                 //Редактировать поле usr.Ban.
-                usr.Ban = time;
+                var usr1 = new Database.API.Ban()
+                {
+                    Id = id
+                };
+                usr1.Time = time;
                 return $"Пользователь забанен на {time} минут.";
             }
         }
@@ -65,7 +81,10 @@ namespace MikeBot.Bot.API
         /// <returns></returns>
         public static string IsUser(string id)
         {
-            var usr = new Database.API.UserInfo(id);
+            var usr = new Database.API.User()
+            {
+                Id = id
+            };
 
             bool resp = usr.IsUser;
 
@@ -90,7 +109,19 @@ namespace MikeBot.Bot.API
             string fields = @"`id`, `name`, `isYou`";
             string first_name = MikeBot.API.Method.Users.Get.Start(id).obj.response[0].first_name;
             string values = $@"'{id}', '{first_name}', '1'";
-            Database.API.Add.String(fields, values);
+
+            Database.API.Database database = new Database.API.Database()
+            {
+                value = "mike"
+            };
+            Table table = new Table()
+            {
+                value = "users"
+            };
+
+            Methods method = new Methods(database,table);
+
+            method.Add(fields, values);
             string name = Name(id);
             return $"Пользователь {name} добавлен в базу данных пользователей!";
         }

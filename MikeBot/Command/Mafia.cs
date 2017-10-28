@@ -33,11 +33,23 @@ namespace MikeBot.Command
                 //TODO: сделать проверку на игру.
             }
 
-            var user_profile = new MafiaProfile(id);
+            var user_profile = new Database.API.Mafia.User()
+            {
+                Id = id
+            };
 
             if(!user_profile.IsUser)
             {
-                Methods_OLD method = new Methods_OLD("mafia");
+                Database.API.Database database = new Database.API.Database()
+                {
+                    value = "mafia"
+                };
+                Table table = new Table()
+                {
+                    value = "users"
+                };
+
+                Methods method = new Methods(database,table);
                 method.Add(@"`id`, `play_id`, `count_game`, `count_win`", $@"'{id}', '0', '0', '0'");
             }
 

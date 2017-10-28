@@ -11,7 +11,10 @@ namespace MikeBot.Command
     {
         public static void Start(ResponseSDKCommand response)
         {
-            var user = new UserInfo(response.attach.from);
+            var user = new User()
+            {
+                Id = response.attach.from
+            };
 
             var vk = API.Vk.Auth();
             long dialog_id = Convert.ToInt64(response.peer_id);
@@ -37,11 +40,24 @@ namespace MikeBot.Command
                     }
                 }
 
-                var dialog = new DialogInfo(dialog_id.ToString());
+                var dialog = new Dialog()
+                {
+                    Id = dialog_id.ToString()
+                };
 
                 if(!dialog.IsDialog)
                 {
-                    Methods_OLD method = new Methods_OLD("dialog");
+                    var database = new Database.API.Database()
+                    {
+                        value = "mike"
+                    };
+                    var table = new Table()
+                    {
+                        value = "dialogs"
+                    };
+
+
+                    Methods method = new Methods(database,table);
                     string fields = @"`id`, `name`, `admin`, `isYou`";
                     string values = $@"'{dialog_id}', '{name_dialog}', '{id}', '1'";
                     method.Add(fields, values);
@@ -65,7 +81,10 @@ namespace MikeBot.Command
         public static bool Check(string dialog_id, string id)
         {
             long _dialog_id = Convert.ToInt64(dialog_id);
-            var dialog = new DialogInfo(dialog_id);
+            var dialog = new Dialog()
+            {
+                Id = dialog_id
+            };
 
             if(dialog.IsDialog)
             {
@@ -82,7 +101,7 @@ namespace MikeBot.Command
                 {
                     string name_dialog = dialog.Name;
                     vk.Messages.EditChat(_dialog_id, name_dialog);
-                    Bot.API.Message.Send("Для того, чтобы изменить название, обратитесь к [{id_creator}|создателю] диалога  или тому [{admin}|кто сохранил] название.", dialog_id);
+                    Bot.API.Message.Send($"Для того, чтобы изменить название, обратитесь к [{id_creator}|создателю] диалога  или тому, [{admin}|кто сохранил] название.", dialog_id);
                     return true;
                 }
             } else
